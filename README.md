@@ -1,0 +1,1 @@
+# StayRent - House & Property Rental Platform
