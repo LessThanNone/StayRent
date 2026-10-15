@@ -12,7 +12,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PropertyDetail from './pages/PropertyDetail';
 import TenantDashboard from './pages/TenantDashboard';
+import MyBookings from './pages/MyBookings';
+import WishlistPage from './pages/WishlistPage';
 import OwnerDashboard from './pages/OwnerDashboard';
+import AddPropertyPage from './pages/AddPropertyPage';
+import EditPropertyPage from './pages/EditPropertyPage';
+import OwnerBookings from './pages/OwnerBookings';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
 
@@ -34,11 +39,16 @@ function App() {
                 {/* Tenant Protected Routes */}
                 <Route element={<PrivateRoute allowedRoles={['tenant', 'admin']} />}>
                   <Route path="/tenant/dashboard" element={<TenantDashboard />} />
+                  <Route path="/my-bookings" element={<MyBookings />} />
+                  <Route path="/wishlist" element={<WishlistPage />} />
                 </Route>
 
                 {/* Owner Protected Routes */}
                 <Route element={<PrivateRoute allowedRoles={['owner', 'admin']} />}>
                   <Route path="/owner/dashboard" element={<OwnerDashboard />} />
+                  <Route path="/owner/bookings" element={<OwnerBookings />} />
+                  <Route path="/owner/property/add" element={<AddPropertyPage />} />
+                  <Route path="/owner/property/edit/:id" element={<EditPropertyPage />} />
                 </Route>
 
                 {/* Admin Protected Routes */}

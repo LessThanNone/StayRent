@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { reviewService } from '../services/apiServices';
+import { wishlistService } from '../services/apiServices';
 import { useAuth } from '../hooks/useAuth';
 
 export const WishlistContext = createContext();
@@ -20,7 +20,7 @@ export const WishlistProvider = ({ children }) => {
   const fetchWishlist = async () => {
     try {
       setLoading(true);
-      const res = await reviewService.getWishlist();
+      const res = await wishlistService.getWishlist();
       setWishlist(res.data.data || []);
     } catch (error) {
       console.error('Failed to fetch wishlist', error);
@@ -31,7 +31,7 @@ export const WishlistProvider = ({ children }) => {
 
   const toggleWishlist = async (propertyId) => {
     try {
-      const res = await reviewService.toggleWishlist(propertyId);
+      const res = await wishlistService.toggleWishlist(propertyId);
       // Refresh wishlist after toggle
       await fetchWishlist();
       return res.data;
@@ -42,7 +42,9 @@ export const WishlistProvider = ({ children }) => {
   };
 
   const isFavorited = (propertyId) => {
-    return wishlist.some((item) => (item._id || item) === propertyId);
+    return wishlist.some(
+      (item) => (item._id?.toString() || item?.toString()) === propertyId?.toString()
+    );
   };
 
   return (

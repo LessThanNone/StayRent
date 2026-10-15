@@ -33,8 +33,12 @@ export const getProperties = async (req, res, next) => {
     }
 
     // Filter by property type
-    if (propertyType && propertyType !== 'All') {
-      filter.propertyType = propertyType;
+    if (propertyType && propertyType !== 'All' && propertyType !== 'Semua Tipe') {
+      if (propertyType === 'House' || propertyType === 'Rumah') {
+        filter.propertyType = { $in: ['House', 'Rumah'] };
+      } else {
+        filter.propertyType = propertyType;
+      }
     }
 
     // Filter by availability
@@ -154,6 +158,17 @@ export const updateProperty = async (req, res, next) => {
     }
 
     const updatedData = { ...req.body };
+
+    if (typeof updatedData.amenities === 'string') {
+      try { updatedData.amenities = JSON.parse(updatedData.amenities); } catch (_) {}
+    }
+    if (typeof updatedData.rules === 'string') {
+      try { updatedData.rules = JSON.parse(updatedData.rules); } catch (_) {}
+    }
+    if (typeof updatedData.address === 'string') {
+      try { updatedData.address = JSON.parse(updatedData.address); } catch (_) {}
+    }
+
     if (updatedImages.length > 0) updatedData.images = updatedImages;
 
     const updatedProperty = await Property.findByIdAndUpdate(

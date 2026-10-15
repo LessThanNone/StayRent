@@ -8,6 +8,22 @@ export const createBooking = async (req, res, next) => {
   try {
     const { propertyId, startDate, endDate, totalPrice, notes } = req.body;
 
+    // Validate dates
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (isNaN(start) || isNaN(end)) {
+      return res.status(400).json({ success: false, message: 'Tanggal tidak valid' });
+    }
+    if (start < now) {
+      return res.status(400).json({ success: false, message: 'Tanggal mulai sewa tidak boleh di masa lalu' });
+    }
+    if (end <= start) {
+      return res.status(400).json({ success: false, message: 'Tanggal selesai sewa harus setelah tanggal mulai sewa' });
+    }
+
     const property = await Property.findById(propertyId);
     if (!property) {
       return res.status(404).json({ success: false, message: 'Property not found' });
@@ -111,6 +127,13 @@ export const updateBookingStatus = async (req, res, next) => {
           message: 'Only the tenant who made this booking or admin can cancel it',
         });
       }
+      // Tenant can only cancel pending bookings, not approved ones
+      if (isTenant && !isAdmin && booking.status !== 'pending') {
+        return res.status(400).json({
+          success: false,
+          message: 'Hanya pengajuan yang masih menunggu konfirmasi yang dapat dibatalkan. Hubungi pemilik untuk membatalkan sewa yang sudah disetujui.',
+        });
+      }
     } else if (['approved', 'rejected', 'completed'].includes(status)) {
       if (!isOwner && !isAdmin) {
         return res.status(403).json({
@@ -118,6 +141,36 @@ export const updateBookingStatus = async (req, res, next) => {
           message: 'Only the property owner or admin can update this status',
         });
       }
+    }
+
+    // When approving: check for overlapping approved bookings on the same property
+    if (status === 'approved') {
+      const overlap = await Booking.findOne({
+        _id: { $ne: booking._id },
+        property: booking.property,
+        status: 'approved',
+        startDate: { $lt: booking.endDate },
+        endDate: { $gt: booking.startDate },
+      });
+
+      if (overlap) {
+        return res.status(400).json({
+          success: false,
+          message: 'Sudah ada booking yang disetujui untuk periode yang tumpang tindih pada properti ini. Tolak atau selesaikan booking tersebut terlebih dahulu.',
+        });
+      }
+
+      // Auto-reject other pending bookings for the same property with overlapping dates
+      await Booking.updateMany(
+        {
+          _id: { $ne: booking._id },
+          property: booking.property,
+          status: 'pending',
+          startDate: { $lt: booking.endDate },
+          endDate: { $gt: booking.startDate },
+        },
+        { status: 'rejected' }
+      );
     }
 
     booking.status = status;

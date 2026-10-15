@@ -2,6 +2,55 @@ import User from '../models/User.js';
 import Property from '../models/Property.js';
 import Booking from '../models/Booking.js';
 
+// @desc    Get all Owner accounts with approval status
+// @route   GET /api/admin/owners
+// @access  Private (Admin)
+export const getOwners = async (req, res, next) => {
+  try {
+    const owners = await User.find({ role: 'owner' })
+      .select('-password')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      count: owners.length,
+      data: owners,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Approve / Revoke an Owner account
+// @route   PATCH /api/admin/owners/:id/approve
+// @access  Private (Admin)
+export const approveOwner = async (req, res, next) => {
+  try {
+    const owner = await User.findById(req.params.id).select('-password');
+
+    if (!owner) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (owner.role !== 'owner') {
+      return res.status(400).json({ success: false, message: 'User is not an Owner' });
+    }
+
+    // Toggle: if already approved → revoke, if not → approve
+    owner.isApproved = !owner.isApproved;
+    await owner.save();
+
+    res.json({
+      success: true,
+      message: owner.isApproved ? 'Owner telah disetujui' : 'Owner telah dicabut persetujuannya',
+      data: owner,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 // @desc    Get Admin dashboard statistics
 // @route   GET /api/admin/stats
 // @access  Private (Admin)

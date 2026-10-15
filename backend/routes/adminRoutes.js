@@ -6,6 +6,8 @@ import {
   getAllPropertiesAdmin,
   togglePropertyStatus,
   getAllBookingsAdmin,
+  getOwners,
+  approveOwner,
 } from '../controllers/adminController.js';
 import { protect, authorizeRoles } from '../middleware/authMiddleware.js';
 
@@ -21,4 +23,9 @@ router.get('/properties', getAllPropertiesAdmin);
 router.put('/properties/:id/toggle-status', togglePropertyStatus);
 router.get('/bookings', getAllBookingsAdmin);
 
+// Owner approval routes
+router.get('/owners', getOwners);
+router.patch('/owners/:id/approve', approveOwner);
+
 export default router;
+

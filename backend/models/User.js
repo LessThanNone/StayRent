@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    isApproved: {
+      type: Boolean,
+      default: false, // Owner must be approved by Admin before listing properties
+    },
     avatar: {
       type: String,
       default: '',

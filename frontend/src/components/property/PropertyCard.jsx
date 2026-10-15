@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Star, MapPin, Bed, Bath, Maximize } from 'lucide-react';
+import { Heart, Star, MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
 import { formatRupiah } from '../../utils/formatters';
 import { useWishlist } from '../../hooks/useWishlist';
-import Card from '../ui/Card';
 
 const PropertyCard = ({ property }) => {
   const { isFavorited, toggleWishlist } = useWishlist();
@@ -17,113 +16,120 @@ const PropertyCard = ({ property }) => {
 
   const imageSrc =
     property.images && property.images.length > 0
-      ? property.images[0].startsWith('http')
-        ? property.images[0]
-        : property.images[0]
+      ? property.images[0]
       : 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80';
 
+  const periodLabel =
+    property.pricePeriod === 'monthly'
+      ? 'bulan'
+      : property.pricePeriod === 'yearly'
+      ? 'tahun'
+      : 'malam';
+
   return (
-    <Card className="group relative flex flex-col h-full">
-      {/* Property Thumbnail & Overlays */}
+    <div className="group flex flex-col bg-white rounded-[14px] overflow-hidden transition-all duration-300 shadow-airbnb hover:-translate-y-1 hover:shadow-airbnb-hover">
+      {/* Photo plate — Airbnb: 4:3 ratio, rounded-[14px] top clip */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
-        <img
-          src={imageSrc}
-          alt={property.title}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        <Link to={`/properties/${property._id}`} className="block h-full w-full">
+          <img
+            src={imageSrc}
+            alt={property.title}
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            loading="lazy"
+          />
+        </Link>
 
-        {/* Property Type Badge */}
-        <span className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">
-          {property.propertyType}
-        </span>
+        {/* Availability + type badges — top left */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 pointer-events-none">
+          <span
+            className={`px-2.5 py-1 rounded-full text-[11px] font-medium ${
+              property.isAvailable
+                ? 'bg-white/90 text-emerald-700'
+                : 'bg-white/90 text-rose-600'
+            }`}
+          >
+            {property.isAvailable ? 'Siap Huni' : 'Sudah Dipesan'}
+          </span>
+        </div>
 
-        {/* Availability Badge */}
-        <span
-          className={`absolute bottom-3 left-3 text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm ${
-            property.isAvailable
-              ? 'bg-emerald-500 text-white'
-              : 'bg-red-500 text-white'
-          }`}
-        >
-          {property.isAvailable ? 'Tersedia' : 'Sudah Dipesan'}
-        </span>
-
-        {/* Wishlist Button */}
+        {/* Heart button — top right, Airbnb style */}
         <button
           onClick={handleFavoriteClick}
           aria-label="Save to wishlist"
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500 hover:bg-white transition-colors shadow-sm"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-sm"
         >
           <Heart
-            className={`w-4 h-4 ${
-              favorited ? 'fill-red-500 text-red-500' : 'text-gray-700'
+            className={`w-4 h-4 transition-colors ${
+              favorited ? 'fill-rose-500 text-rose-500' : 'text-gray-600 hover:text-rose-500'
             }`}
           />
         </button>
       </div>
 
-      {/* Property Details */}
+      {/* Meta block — 16px padding, Airbnb body-sm (14px/400) */}
       <div className="p-4 flex flex-col flex-1 justify-between">
         <div>
-          {/* Location & Rating */}
-          <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+          {/* Location & Rating row */}
+          <div className="flex items-center justify-between text-xs text-mutedtext mb-1">
             <span className="flex items-center truncate max-w-[70%]">
-              <MapPin className="w-3.5 h-3.5 mr-1 text-gray-400 flex-shrink-0" />
+              <MapPin className="w-3 h-3 mr-1 text-brand-500 flex-shrink-0" />
               {property.address?.city || 'Indonesia'}
             </span>
-            <span className="flex items-center font-medium text-amber-600">
-              <Star className="w-3.5 h-3.5 mr-1 fill-amber-400 text-amber-400" />
+            {/* Airbnb: rating in ink (near-black), not gold */}
+            <span className="flex items-center font-medium text-ink shrink-0">
+              <Star className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
               {property.rating > 0 ? property.rating.toFixed(1) : 'Baru'}
-              {property.numReviews > 0 && ` (${property.numReviews})`}
+              {property.numReviews > 0 && (
+                <span className="text-mutedtext font-normal ml-0.5">({property.numReviews})</span>
+              )}
             </span>
           </div>
 
           {/* Title */}
           <Link to={`/properties/${property._id}`}>
-            <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1 mb-2">
+            <h3 className="font-medium text-ink text-sm group-hover:text-brand-500 transition-colors line-clamp-1 mb-1.5">
               {property.title}
             </h3>
           </Link>
 
-          {/* Facilities Spec Icons */}
-          <div className="flex items-center gap-3 text-xs text-gray-600 mb-3">
+          {/* Specs row */}
+          <div className="flex items-center gap-3 text-xs text-mutedtext mb-3">
             <span className="flex items-center">
-              <Bed className="w-3.5 h-3.5 mr-1 text-gray-400" />
+              <Bed className="w-3 h-3 mr-1 flex-shrink-0" />
               {property.bedrooms || 1} KT
             </span>
             <span className="flex items-center">
-              <Bath className="w-3.5 h-3.5 mr-1 text-gray-400" />
+              <Bath className="w-3 h-3 mr-1 flex-shrink-0" />
               {property.bathrooms || 1} KM
             </span>
             {property.area && (
               <span className="flex items-center">
-                <Maximize className="w-3.5 h-3.5 mr-1 text-gray-400" />
+                <Maximize2 className="w-3 h-3 mr-1 flex-shrink-0" />
                 {property.area} m²
               </span>
             )}
           </div>
         </div>
 
-        {/* Pricing & Action */}
-        <div className="pt-3 border-t border-gray-100 flex items-baseline justify-between">
+        {/* Price — Airbnb: bold ink, muted period label */}
+        <div className="pt-3 border-t border-hairline flex items-baseline justify-between">
           <div>
-            <span className="text-base font-bold text-blue-600">
+            <span className="text-sm font-semibold text-ink tabular-nums">
               {formatRupiah(property.price)}
             </span>
-            <span className="text-xs text-gray-500">
-              /{property.pricePeriod === 'monthly' ? 'bln' : property.pricePeriod === 'yearly' ? 'thn' : 'mlm'}
+            <span className="text-xs text-mutedtext font-normal ml-1">
+              /{periodLabel}
             </span>
           </div>
-
           <Link
             to={`/properties/${property._id}`}
-            className="text-xs font-semibold text-blue-600 hover:text-blue-700 underline"
+            className="text-xs text-brand-500 hover:text-brand-800 font-medium"
           >
-            Lihat Detail
+            Lihat detail
           </Link>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -7,55 +7,128 @@ import {
   Utensils,
   Tv,
   ShieldCheck,
+  Bath,
+  Flame,
+  Laptop,
   CigaretteOff,
   PawPrint,
   PartyPopper,
+  Clock,
   Users,
-  CheckCircle,
+  CheckCircle2,
+  XCircle,
+  HelpCircle,
 } from 'lucide-react';
 
-const iconMap = {
+const iconDictionary = {
+  // Amenities
+  'Wi-Fi Cepat': Wifi,
   WiFi: Wifi,
-  'Air Conditioning': Wind,
+  'Air Conditioning (AC)': Wind,
   AC: Wind,
-  'Swimming Pool': Waves,
-  'Free Parking': Car,
+  'Kamar Mandi Dalam': Bath,
+  'Parkir Gratis': Car,
+  'Parkir Mobil & Motor': Car,
   Parking: Car,
+  'Dapur Lengkap': Utensils,
   Kitchen: Utensils,
   'Smart TV': Tv,
   TV: Tv,
-  '24/7 Security': ShieldCheck,
+  'Kolam Renang': Waves,
+  'Swimming Pool': Waves,
+  'Keamanan 24 Jam': ShieldCheck,
+  'Water Heater': Flame,
+  'Meja Kerja & Kursi': Laptop,
+
+  // Rules
   'Dilarang Merokok': CigaretteOff,
   'No Smoking': CigaretteOff,
+  'Dilarang Bawa Hewan': PawPrint,
+  'No Pets': PawPrint,
   'Boleh Bawa Hewan': PawPrint,
   'Pet Friendly': PawPrint,
-  'Dilarang Pesta': PartyPopper,
+  'Dilarang Pesta / Bising': PartyPopper,
   'No Parties': PartyPopper,
+  'Akses 24 Jam Bebas': Clock,
   'Batas Tamu Tertentu': Users,
 };
 
-const PropertyBadges = ({ items = [], type = 'amenity', size = 'sm' }) => {
+/**
+ * PropertyBadges component supporting:
+ * - 'pills': compact pill badges with Lucide icons (for cards & quick view)
+ * - 'blocks': Rukita-style structured block cards with icons, titles, and allowed/prohibited states
+ */
+const PropertyBadges = ({ items = [], type = 'amenity', variant = 'pills' }) => {
   if (!items || items.length === 0) return null;
 
   const isAmenity = type === 'amenity';
 
+  if (variant === 'blocks') {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        {items.map((item, index) => {
+          const Icon = iconDictionary[item] || (isAmenity ? CheckCircle2 : HelpCircle);
+          const isProhibited =
+            item.toLowerCase().includes('dilarang') ||
+            item.toLowerCase().includes('no ') ||
+            item.toLowerCase().includes('tidak');
+
+          return (
+            <div
+              key={index}
+              className={`p-3.5 rounded-xl border flex items-center space-x-3 transition-colors ${
+                isProhibited
+                  ? 'bg-rose-50/50 border-rose-100 text-rose-950'
+                  : 'bg-surface-warm border-gray-100 text-ink hover:border-gray-200'
+              }`}
+            >
+              <div
+                className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  isProhibited
+                    ? 'bg-rose-100 text-rose-600'
+                    : isAmenity
+                    ? 'bg-brand-50 text-brand-700'
+                    : 'bg-emerald-50 text-emerald-700'
+                }`}
+              >
+                <Icon className="w-4 h-4 stroke-[2]" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-xs font-semibold block truncate leading-tight">
+                  {item}
+                </span>
+                {isAmenity && (
+                  <span className="text-[11px] text-mutedtext block">Tersedia Lengkap</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Default: Sleek pill badges with Lucide icons (No Emojis)
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((item, index) => {
-        const IconComponent = iconMap[item] || CheckCircle;
+        const Icon = iconDictionary[item] || (isAmenity ? CheckCircle2 : HelpCircle);
+        const isProhibited =
+          item.toLowerCase().includes('dilarang') ||
+          item.toLowerCase().includes('no ');
 
         return (
           <span
             key={index}
-            className={`inline-flex items-center space-x-1.5 rounded-full font-medium ${
-              size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3.5 py-1.5 text-sm'
-            } ${
-              isAmenity
-                ? 'bg-blue-50 text-blue-700 border border-blue-100'
-                : 'bg-amber-50 text-amber-800 border border-amber-200'
+            className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
+              isProhibited
+                ? 'bg-rose-50 text-rose-700 border-rose-200'
+                : isAmenity
+                ? 'bg-brand-50/70 text-brand-800 border-brand-200/60'
+                : 'bg-gray-50 text-ink border-gray-200'
             }`}
           >
-            <IconComponent className={size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
+            <Icon className="w-3.5 h-3.5 stroke-[2] flex-shrink-0" />
             <span>{item}</span>
           </span>
         );

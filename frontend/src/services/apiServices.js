@@ -33,15 +33,19 @@ export const bookingService = {
     axiosInstance.put(`/bookings/${id}/status`, { status }),
 };
 
-// Review & Wishlist Services
+// Review Services
 export const reviewService = {
   createReview: (propertyId, data) =>
     axiosInstance.post(`/reviews/${propertyId}`, data),
   getPropertyReviews: (propertyId) =>
     axiosInstance.get(`/reviews/${propertyId}`),
-  getWishlist: () => axiosInstance.get('/reviews/wishlist'),
+};
+
+// Wishlist Services  (now at /api/wishlist per spec)
+export const wishlistService = {
+  getWishlist: () => axiosInstance.get('/wishlist'),
   toggleWishlist: (propertyId) =>
-    axiosInstance.post(`/reviews/wishlist/${propertyId}`),
+    axiosInstance.post('/wishlist/toggle', { propertyId }),
 };
 
 // Admin Services
@@ -54,4 +58,8 @@ export const adminService = {
   togglePropertyStatus: (id) =>
     axiosInstance.put(`/admin/properties/${id}/toggle-status`),
   getBookings: () => axiosInstance.get('/admin/bookings'),
+  // Owner approval
+  getOwners: () => axiosInstance.get('/admin/owners'),
+  approveOwner: (id) => axiosInstance.patch(`/admin/owners/${id}/approve`),
 };
+

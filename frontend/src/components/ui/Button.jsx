@@ -9,20 +9,27 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center font-medium rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.97]';
 
   const variants = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-gray-100 text-gray-800 hover:bg-gray-200 focus:ring-gray-400',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
-    ghost: 'text-gray-600 hover:bg-gray-100 hover:text-gray-900',
+    primary:
+      'bg-brand-500 text-white border border-brand-500 shadow-btn hover:-translate-y-0.5 hover:shadow-btn-hover hover:brightness-110',
+    secondary:
+      'bg-[#1E3A8A] text-white border border-transparent shadow-btn hover:-translate-y-0.5 hover:shadow-btn-hover hover:brightness-110',
+    outline:
+      'bg-white border border-hairline text-mutedtext hover:border-brand-400 hover:text-brand-500 hover:-translate-y-0.5 hover:shadow-rukita-sm',
+    danger:
+      'bg-rose-600 text-white hover:bg-rose-700 hover:-translate-y-0.5',
+    ghost:
+      'text-mutedtext hover:text-ink hover:bg-gray-100/70',
+    whatsapp:
+      'bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 hover:-translate-y-0.5',
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
+    sm: 'px-3.5 py-1.5 text-xs h-[34px]',
+    md: 'px-5 py-2.5 text-sm h-[42px]',
+    lg: 'px-6 py-3 text-sm font-medium h-[46px]',
   };
 
   return (

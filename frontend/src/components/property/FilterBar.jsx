@@ -1,134 +1,175 @@
 import React, { useState } from 'react';
-import { Search, MapPin, SlidersHorizontal, CheckSquare, Square } from 'lucide-react';
+import { Search, MapPin, Home, SlidersHorizontal, RotateCcw } from 'lucide-react';
 import { PROPERTY_TYPES } from '../../utils/constants';
-import Button from '../ui/Button';
 
 const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
   const [filters, setFilters] = useState({
-    keyword: initialFilters.keyword || '',
     city: initialFilters.city || '',
-    propertyType: initialFilters.propertyType || 'All',
     availableOnly: initialFilters.availableOnly || false,
     minPrice: initialFilters.minPrice || '',
     maxPrice: initialFilters.maxPrice || '',
   });
 
+  const [showPriceFilter, setShowPriceFilter] = useState(false);
+
+  // Sync internal state when initialFilters changes (e.g. from quick category click or parent updates)
+  React.useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      city: initialFilters.city || '',
+      availableOnly: initialFilters.availableOnly || false,
+      minPrice: initialFilters.minPrice || '',
+      maxPrice: initialFilters.maxPrice || '',
+    }));
+  }, [initialFilters.city, initialFilters.availableOnly, initialFilters.minPrice, initialFilters.maxPrice]);
+
   const handleChange = (key, value) => {
-    const updated = { ...filters, [key]: value };
-    setFilters(updated);
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (onFilterChange) {
-      onFilterChange(filters);
-    }
+  const handleToggleAvailable = () => {
+    const nextVal = !filters.availableOnly;
+    const updated = { ...filters, availableOnly: nextVal };
+    setFilters(updated);
+    if (onFilterChange) onFilterChange(updated);
+  };
+
+  const handleSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (onFilterChange) onFilterChange(filters);
+  };
+
+  const handleApplyPrice = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (onFilterChange) onFilterChange(filters);
   };
 
   const handleReset = () => {
     const resetValues = {
-      keyword: '',
       city: '',
-      propertyType: 'All',
       availableOnly: false,
       minPrice: '',
       maxPrice: '',
     };
     setFilters(resetValues);
-    if (onFilterChange) {
-      onFilterChange(resetValues);
-    }
+    if (onFilterChange) onFilterChange(resetValues);
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 mb-8">
-      <form onSubmit={handleSearch} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Keyword Search */}
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+    <div className="w-full mb-4">
+      {/* Airbnb pill search bar: white, fully rounded, 1px hairline, teal orb */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-3xl md:rounded-full border border-hairline shadow-rukita-sm p-2 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-0"
+      >
+        {/* Segment 1: Lokasi */}
+        <div className="flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-hairline hover:bg-gray-50/60 rounded-2xl md:rounded-l-full transition-colors">
+          <MapPin className="w-4 h-4 text-brand-500 mr-3 flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <span className="block text-[11px] font-medium text-mutedtext">
+              Lokasi / Kota
+            </span>
             <input
               type="text"
-              placeholder="Cari properti, nama jalan..."
-              value={filters.keyword}
-              onChange={(e) => handleChange('keyword', e.target.value)}
-              className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
-            />
-          </div>
-
-          {/* City / Location Filter */}
-          <div className="relative">
-            <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Kota (cth: Jakarta, Bandung)"
+              placeholder="Cth: Bandung, Jakarta, Sleman..."
               value={filters.city}
               onChange={(e) => handleChange('city', e.target.value)}
-              className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+              className="w-full text-sm text-ink placeholder-mutedtext bg-transparent focus:outline-none truncate"
             />
-          </div>
-
-          {/* Property Type Filter */}
-          <div>
-            <select
-              value={filters.propertyType}
-              onChange={(e) => handleChange('propertyType', e.target.value)}
-              className="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-gray-700"
-            >
-              {PROPERTY_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type === 'All' ? 'Semua Tipe Properti' : type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex space-x-2">
-            <Button type="submit" variant="primary" className="flex-1">
-              Terapkan
-            </Button>
-            <Button type="button" variant="outline" onClick={handleReset}>
-              Reset
-            </Button>
           </div>
         </div>
 
-        {/* Quick Filter: Availability & Price Range */}
-        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-gray-100 text-xs text-gray-600 gap-4">
+        {/* Segment 2: Ketersediaan toggle */}
+        <div className="flex items-center justify-between px-4 py-2 hover:bg-gray-50/60 transition-colors">
+          <div className="mr-3">
+            <span className="block text-[11px] font-medium text-mutedtext">
+              Ketersediaan
+            </span>
+            <span className="text-xs text-mutedtext">Siap Huni Saja</span>
+          </div>
           <button
             type="button"
-            onClick={() => handleChange('availableOnly', !filters.availableOnly)}
-            className="flex items-center space-x-2 font-medium hover:text-blue-600 focus:outline-none cursor-pointer"
+            onClick={handleToggleAvailable}
+            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+              filters.availableOnly ? 'bg-brand-500' : 'bg-gray-200'
+            }`}
+            role="switch"
+            aria-checked={filters.availableOnly}
           >
-            {filters.availableOnly ? (
-              <CheckSquare className="w-4 h-4 text-blue-600" />
-            ) : (
-              <Square className="w-4 h-4 text-gray-400" />
-            )}
-            <span>Hanya tampilkan properti yang siap sewa (Available)</span>
+            <span
+              aria-hidden="true"
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                filters.availableOnly ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Actions: filter icon + teal search orb */}
+        <div className="flex items-center gap-2 pl-2 pr-1 py-1">
+          <button
+            type="button"
+            onClick={() => setShowPriceFilter(!showPriceFilter)}
+            className={`p-2.5 rounded-full border transition-colors ${
+              showPriceFilter
+                ? 'bg-brand-50 border-brand-200 text-brand-500'
+                : 'border-hairline text-mutedtext hover:bg-gray-100'
+            }`}
+            title="Filter Rentang Harga"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-400">Rentang Harga (Rp):</span>
-            <input
-              type="number"
-              placeholder="Min"
-              value={filters.minPrice}
-              onChange={(e) => handleChange('minPrice', e.target.value)}
-              className="w-24 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <span>-</span>
-            <input
-              type="number"
-              placeholder="Maks"
-              value={filters.maxPrice}
-              onChange={(e) => handleChange('maxPrice', e.target.value)}
-              className="w-24 px-2 py-1 bg-gray-50 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
+          <button
+            type="submit"
+            className="flex-1 md:flex-initial inline-flex items-center justify-center space-x-2 bg-brand-500 hover:opacity-80 text-white font-medium text-sm px-6 h-[48px] rounded-full transition-all active:scale-95"
+          >
+            <Search className="w-4 h-4 stroke-[2.5]" />
+            <span className="md:hidden lg:inline">Cari Hunian</span>
+          </button>
         </div>
       </form>
+
+      {/* Price range drawer */}
+      {showPriceFilter && (
+        <div className="mt-3 p-4 bg-white rounded-[12px] border border-hairline shadow-rukita-sm flex flex-wrap items-center justify-between gap-4 animate-fadeIn">
+          <div className="flex items-center gap-3 text-sm text-ink">
+            <span className="font-medium">Rentang Harga (Rp):</span>
+            <input
+              type="number"
+              placeholder="Minimum"
+              value={filters.minPrice}
+              onChange={(e) => handleChange('minPrice', e.target.value)}
+              className="w-36 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
+            />
+            <span className="text-mutedtext">—</span>
+            <input
+              type="number"
+              placeholder="Maksimum"
+              value={filters.maxPrice}
+              onChange={(e) => handleChange('maxPrice', e.target.value)}
+              className="w-36 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
+            />
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="inline-flex items-center text-xs text-mutedtext hover:text-ink px-3 py-1.5 transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5 mr-1" />
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleApplyPrice}
+              className="text-xs bg-brand-500 hover:opacity-80 text-white font-medium px-4 py-1.5 rounded-full transition-all"
+            >
+              Terapkan
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

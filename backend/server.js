@@ -10,6 +10,7 @@ import authRoutes from './routes/authRoutes.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
+import wishlistRoutes from './routes/wishlistRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
@@ -52,6 +53,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Error Middlewares

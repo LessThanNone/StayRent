@@ -2,15 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { adminService } from '../services/apiServices';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import Button from '../components/ui/Button';
-import Card from '../components/ui/Card';
-import { Users, Home, Calendar, DollarSign, Shield, CheckCircle, XCircle } from 'lucide-react';
+import {
+  ShieldCheck,
+  CheckCircle2,
+  XCircle,
+  ToggleLeft,
+  ToggleRight,
+} from 'lucide-react';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
+  const [owners, setOwners] = useState([]);
   const [properties, setProperties] = useState([]);
   const [bookings, setBookings] = useState([]);
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'users' | 'properties' | 'bookings'
+  const [activeTab, setActiveTab] = useState('users');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,20 +26,31 @@ const AdminDashboard = () => {
   const fetchAdminData = async () => {
     try {
       setLoading(true);
-      const [statsRes, usersRes, propsRes, booksRes] = await Promise.all([
+      const [statsRes, usersRes, ownersRes, propsRes, booksRes] = await Promise.all([
         adminService.getStats(),
         adminService.getUsers(),
+        adminService.getOwners(),
         adminService.getProperties(),
         adminService.getBookings(),
       ]);
       setStats(statsRes.data.data);
       setUsers(usersRes.data.data || []);
+      setOwners(ownersRes.data.data || []);
       setProperties(propsRes.data.data || []);
       setBookings(booksRes.data.data || []);
     } catch (error) {
       console.error('Failed to load admin data', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleOwnerApproval = async (ownerId) => {
+    try {
+      await adminService.approveOwner(ownerId);
+      fetchAdminData();
+    } catch (error) {
+      alert(error.response?.data?.message || 'Gagal mengubah status verifikasi owner');
     }
   };
 
@@ -58,225 +75,253 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-12 animate-pulse">
-        <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-        <div className="grid grid-cols-4 gap-4 h-28 bg-gray-200 rounded-xl mb-8"></div>
+        <div className="h-8 bg-gray-200 rounded-xl w-1/4 mb-6"></div>
+        <div className="grid grid-cols-4 gap-4 h-28 bg-gray-200 rounded-2xl mb-8"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="flex items-center space-x-3 mb-8">
-        <div className="p-2 bg-blue-100 text-blue-700 rounded-lg">
-          <Shield className="w-6 h-6" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Control Center</h1>
-          <p className="text-xs text-gray-500">Kelola pengguna, status iklan sewa, dan pantau performa platform</p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Top Header — editorial */}
+      <div className="mb-10">
+        <span className="inline-block text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-500 mb-3">
+          Super Administrator
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-heading leading-heading text-ink mb-2">
+          Admin Control Center
+        </h1>
+        <p className="text-sm text-mutedtext max-w-lg">
+          Pantau metrik performa, moderasi akses pengguna, dan tinjau seluruh listing properti.
+        </p>
       </div>
 
-      {/* Stats Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <Card className="p-5 flex items-center space-x-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-gray-500 block">Total Pengguna</span>
-            <span className="text-xl font-bold text-gray-900">{stats?.totalUsers || 0}</span>
-          </div>
-        </Card>
-
-        <Card className="p-5 flex items-center space-x-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-            <Home className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-gray-500 block">Total Properti</span>
-            <span className="text-xl font-bold text-gray-900">{stats?.totalProperties || 0}</span>
-          </div>
-        </Card>
-
-        <Card className="p-5 flex items-center space-x-4">
-          <div className="p-3 bg-amber-50 text-amber-600 rounded-xl">
-            <Calendar className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-gray-500 block">Total Transaksi Sewa</span>
-            <span className="text-xl font-bold text-gray-900">{stats?.totalBookings || 0}</span>
-          </div>
-        </Card>
-
-        <Card className="p-5 flex items-center space-x-4">
-          <div className="p-3 bg-purple-50 text-purple-600 rounded-xl">
-            <DollarSign className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-gray-500 block">Total Nilai Sewa</span>
-            <span className="text-lg font-bold text-purple-700">{formatRupiah(stats?.totalRevenue || 0)}</span>
-          </div>
-        </Card>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="flex border-b border-gray-200 mb-6">
-        <button
-          onClick={() => setActiveTab('overview')}
-          className={`py-3 px-6 text-sm font-semibold border-b-2 ${
-            activeTab === 'overview' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'
-          }`}
-        >
-          Ringkasan
-        </button>
+      {/* Tabs */}
+      <div className="flex border-b border-hairline mb-8 overflow-x-auto">
         <button
           onClick={() => setActiveTab('users')}
           className={`py-3 px-6 text-sm font-semibold border-b-2 ${
-            activeTab === 'users' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'
+            activeTab === 'users' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
           Kelola Pengguna ({users.length})
         </button>
         <button
-          onClick={() => setActiveTab('properties')}
+          onClick={() => setActiveTab('owners')}
           className={`py-3 px-6 text-sm font-semibold border-b-2 ${
-            activeTab === 'properties' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'
+            activeTab === 'owners' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Semua Properti ({properties.length})
+          Verifikasi Owner ({owners.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('properties')}
+          className={`py-3 px-6 text-sm font-semibold border-b-2 ${
+            activeTab === 'properties' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
+          }`}
+        >
+          Moderasi Properti ({properties.length})
         </button>
         <button
           onClick={() => setActiveTab('bookings')}
           className={`py-3 px-6 text-sm font-semibold border-b-2 ${
-            activeTab === 'bookings' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'
+            activeTab === 'bookings' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Semua Booking ({bookings.length})
+          Seluruh Booking ({bookings.length})
         </button>
       </div>
 
-      {/* Tab: Users Management */}
+      {/* TAB 1: USERS TABLE */}
       {activeTab === 'users' && (
-        <div className="bg-white rounded-xl border border-gray-100 overflow-x-auto">
-          <table className="w-full text-left text-xs text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 uppercase font-semibold border-b border-gray-100">
-              <tr>
-                <th className="p-4">Nama</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Role Saat Ini</th>
-                <th className="p-4">Ubah Role</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {users.map((u) => (
-                <tr key={u._id} className="hover:bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900">{u.name}</td>
-                  <td className="p-4">{u.email}</td>
-                  <td className="p-4">
-                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold uppercase bg-gray-100 text-gray-700">
-                      {u.role}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <select
-                      value={u.role}
-                      onChange={(e) => handleRoleChange(u._id, e.target.value)}
-                      className="px-2 py-1 bg-white border border-gray-200 rounded text-xs focus:ring-1 focus:ring-blue-500"
-                    >
-                      <option value="tenant">Tenant</option>
-                      <option value="owner">Owner</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  </td>
+        <div className="bg-white rounded-2xl border border-hairline shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-gray-600">
+              <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
+                <tr>
+                  <th className="p-4">Nama Lengkap</th>
+                  <th className="p-4">Email Akun</th>
+                  <th className="p-4">Role Saat Ini</th>
+                  <th className="p-4">Ganti Peran</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {users.map((u) => (
+                  <tr key={u._id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="p-4 font-bold text-ink">{u.name}</td>
+                    <td className="p-4">{u.email}</td>
+                    <td className="p-4">
+                      <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase bg-brand-50 text-brand-800 border border-brand-200">
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <select
+                        value={u.role}
+                        onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                        className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-semibold focus:ring-1 focus:ring-brand-700 focus:outline-none"
+                      >
+                        <option value="tenant">Tenant (Penyewa)</option>
+                        <option value="owner">Owner (Pemilik)</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {/* Tab: Properties Management */}
+      {/* TAB: OWNERS APPROVAL TABLE */}
+      {activeTab === 'owners' && (
+        <div className="bg-white rounded-2xl border border-hairline shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-gray-600">
+              <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
+                <tr>
+                  <th className="p-4">Nama Pemilik</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">Nomor WhatsApp</th>
+                  <th className="p-4">Status Verifikasi</th>
+                  <th className="p-4">Aksi Verifikasi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {owners.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="p-8 text-center text-mutedtext">
+                      Belum ada akun Owner terdaftar.
+                    </td>
+                  </tr>
+                ) : (
+                  owners.map((o) => (
+                    <tr key={o._id} className="hover:bg-gray-50/70 transition-colors">
+                      <td className="p-4 font-bold text-ink">{o.name}</td>
+                      <td className="p-4">{o.email}</td>
+                      <td className="p-4 font-medium text-ink">{o.phone || '-'}</td>
+                      <td className="p-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-semibold ${
+                            o.isApproved
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : 'bg-amber-50 text-amber-800 border border-amber-200'
+                          }`}
+                        >
+                          {o.isApproved ? 'Disetujui' : 'Menunggu Persetujuan'}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <Button
+                          size="sm"
+                          variant={o.isApproved ? 'outline' : 'primary'}
+                          onClick={() => handleToggleOwnerApproval(o._id)}
+                          className="text-xs"
+                        >
+                          {o.isApproved ? 'Cabut Verifikasi' : 'Setujui Akun Owner'}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: PROPERTIES TABLE */}
       {activeTab === 'properties' && (
-        <div className="bg-white rounded-xl border border-gray-100 overflow-x-auto">
-          <table className="w-full text-left text-xs text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 uppercase font-semibold border-b border-gray-100">
-              <tr>
-                <th className="p-4">Judul Properti</th>
-                <th className="p-4">Pemilik</th>
-                <th className="p-4">Harga</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {properties.map((p) => (
-                <tr key={p._id} className="hover:bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900">{p.title}</td>
-                  <td className="p-4">{p.owner?.name || '-'}</td>
-                  <td className="p-4 font-medium text-blue-600">{formatRupiah(p.price)}</td>
-                  <td className="p-4">
-                    <span className={`px-2 py-0.5 rounded text-xs font-semibold ${p.isAvailable ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
-                      {p.isAvailable ? 'Tersedia' : 'Non-aktif / Booked'}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleTogglePropertyStatus(p._id)}
-                      className="text-xs"
-                    >
-                      Toggle Status
-                    </Button>
-                  </td>
+        <div className="bg-white rounded-2xl border border-hairline shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-gray-600">
+              <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
+                <tr>
+                  <th className="p-4">Judul Unit</th>
+                  <th className="p-4">Pemilik (Host)</th>
+                  <th className="p-4">Harga Sewa</th>
+                  <th className="p-4">Status Ketersediaan</th>
+                  <th className="p-4">Aksi Kontrol</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {properties.map((p) => (
+                  <tr key={p._id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="p-4 font-bold text-ink">{p.title}</td>
+                    <td className="p-4">{p.owner?.name || '-'}</td>
+                    <td className="p-4 font-semibold text-brand-800">{formatRupiah(p.price)}</td>
+                    <td className="p-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-[11px] font-semibold ${
+                          p.isAvailable
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : 'bg-rose-50 text-rose-800 border border-rose-200'
+                        }`}
+                      >
+                        {p.isAvailable ? 'Siap Huni' : 'Dipesan / Nonaktif'}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleTogglePropertyStatus(p._id)}
+                        className="text-xs"
+                      >
+                        Ubah Status Unit
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {/* Tab: Bookings Overview */}
+      {/* TAB 3: BOOKINGS TABLE */}
       {activeTab === 'bookings' && (
-        <div className="bg-white rounded-xl border border-gray-100 overflow-x-auto">
-          <table className="w-full text-left text-xs text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 uppercase font-semibold border-b border-gray-100">
-              <tr>
-                <th className="p-4">Properti</th>
-                <th className="p-4">Penyewa</th>
-                <th className="p-4">Pemilik</th>
-                <th className="p-4">Total</th>
-                <th className="p-4">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {bookings.map((b) => (
-                <tr key={b._id} className="hover:bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900">{b.property?.title}</td>
-                  <td className="p-4">{b.tenant?.name}</td>
-                  <td className="p-4">{b.owner?.name}</td>
-                  <td className="p-4 font-medium text-blue-600">{formatRupiah(b.totalPrice)}</td>
-                  <td className="p-4">
-                    <span className="px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 uppercase">
-                      {b.status}
-                    </span>
-                  </td>
+        <div className="bg-white rounded-2xl border border-hairline shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-gray-600">
+              <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
+                <tr>
+                  <th className="p-4">Unit Properti</th>
+                  <th className="p-4">Penyewa (Tenant)</th>
+                  <th className="p-4">Tuan Rumah (Owner)</th>
+                  <th className="p-4">Total Biaya</th>
+                  <th className="p-4">Status Reservasi</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-hairline">
+                {bookings.map((b) => (
+                  <tr key={b._id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="p-4 font-bold text-ink">{b.property?.title}</td>
+                    <td className="p-4">{b.tenant?.name}</td>
+                    <td className="p-4">{b.owner?.name}</td>
+                    <td className="p-4 font-semibold text-brand-800">{formatRupiah(b.totalPrice)}</td>
+                    <td className="p-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-[11px] font-semibold uppercase ${
+                          b.status === 'approved'
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : b.status === 'rejected'
+                            ? 'bg-rose-50 text-rose-800 border border-rose-200'
+                            : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        }`}
+                      >
+                        {b.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {/* Tab: Overview Info */}
-      {activeTab === 'overview' && (
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h3 className="font-bold text-gray-900 mb-2">Sistem Monitoring StayRent</h3>
-          <p className="text-xs text-gray-500 leading-relaxed">
-            Sebagai Administrator, Anda memiliki akses penuh untuk memantau pendaftaran pengguna, mengubah level role pengguna (Tenant, Owner, Admin), memeriksa kepatuhan iklan properti yang dipasang, serta mengontrol status operasional sistem secara menyeluruh.
-          </p>
-        </div>
-      )}
     </div>
   );
 };

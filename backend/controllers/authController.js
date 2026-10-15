@@ -61,6 +61,7 @@ export const loginUser = async (req, res, next) => {
         role: user.role,
         phone: user.phone,
         avatar: user.avatar,
+        isApproved: user.isApproved,
         token: generateToken(user._id, user.role),
       },
     });
