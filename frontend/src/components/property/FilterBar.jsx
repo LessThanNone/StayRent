@@ -62,16 +62,16 @@ const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
         onSubmit={handleSubmit}
         className="bg-white rounded-3xl md:rounded-full border border-hairline shadow-rukita-sm p-2 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-0"
       >
-        {/* Segment 1: Lokasi */}
+        {/* Segment 1: Location */}
         <div className="flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-hairline hover:bg-gray-50/60 rounded-2xl md:rounded-l-full transition-colors">
           <MapPin className="w-4 h-4 text-brand-500 mr-3 flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <span className="block text-[11px] font-medium text-mutedtext">
-              Lokasi / Kota
+              Location / City
             </span>
             <input
               type="text"
-              placeholder="Cth: Bandung, Jakarta, Sleman..."
+              placeholder="e.g. Bandung, Jakarta, Sleman..."
               value={filters.city}
               onChange={(e) => handleChange('city', e.target.value)}
               className="w-full text-sm text-ink placeholder-mutedtext bg-transparent focus:outline-none truncate"
@@ -79,13 +79,13 @@ const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
           </div>
         </div>
 
-        {/* Segment 2: Ketersediaan toggle */}
+        {/* Segment 2: Availability toggle */}
         <div className="flex items-center justify-between px-4 py-2 hover:bg-gray-50/60 transition-colors">
           <div className="mr-3">
             <span className="block text-[11px] font-medium text-mutedtext">
-              Ketersediaan
+              Availability
             </span>
-            <span className="text-xs text-mutedtext">Siap Huni Saja</span>
+            <span className="text-xs text-mutedtext">Available Only</span>
           </div>
           <button
             type="button"
@@ -115,7 +115,7 @@ const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
                 ? 'bg-brand-50 border-brand-200 text-brand-500'
                 : 'border-hairline text-mutedtext hover:bg-gray-100'
             }`}
-            title="Filter Rentang Harga"
+            title="Price Range Filter"
           >
             <SlidersHorizontal className="w-4 h-4" />
           </button>
@@ -125,33 +125,35 @@ const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
             className="flex-1 md:flex-initial inline-flex items-center justify-center space-x-2 bg-brand-500 hover:opacity-80 text-white font-medium text-sm px-6 h-[48px] rounded-full transition-all active:scale-95"
           >
             <Search className="w-4 h-4 stroke-[2.5]" />
-            <span className="md:hidden lg:inline">Cari Hunian</span>
+            <span className="md:hidden lg:inline">Search</span>
           </button>
         </div>
       </form>
 
       {/* Price range drawer */}
       {showPriceFilter && (
-        <div className="mt-3 p-4 bg-white rounded-[12px] border border-hairline shadow-rukita-sm flex flex-wrap items-center justify-between gap-4 animate-fadeIn">
-          <div className="flex items-center gap-3 text-sm text-ink">
-            <span className="font-medium">Rentang Harga (Rp):</span>
-            <input
-              type="number"
-              placeholder="Minimum"
-              value={filters.minPrice}
-              onChange={(e) => handleChange('minPrice', e.target.value)}
-              className="w-36 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
-            />
-            <span className="text-mutedtext">—</span>
-            <input
-              type="number"
-              placeholder="Maksimum"
-              value={filters.maxPrice}
-              onChange={(e) => handleChange('maxPrice', e.target.value)}
-              className="w-36 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
-            />
+        <div className="mt-3 p-4 bg-white rounded-[12px] border border-hairline shadow-rukita-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate-fadeIn">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-ink w-full sm:w-auto">
+            <span className="font-medium whitespace-nowrap">Price Range (Rp):</span>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <input
+                type="number"
+                placeholder="Minimum"
+                value={filters.minPrice}
+                onChange={(e) => handleChange('minPrice', e.target.value)}
+                className="flex-1 sm:w-36 min-w-0 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
+              />
+              <span className="text-mutedtext flex-shrink-0">—</span>
+              <input
+                type="number"
+                placeholder="Maximum"
+                value={filters.maxPrice}
+                onChange={(e) => handleChange('maxPrice', e.target.value)}
+                className="flex-1 sm:w-36 min-w-0 px-3 py-1.5 bg-gray-50 border border-hairline rounded-lg text-sm focus:border-brand-500 focus:outline-none"
+              />
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
               type="button"
               onClick={handleReset}
@@ -165,7 +167,7 @@ const FilterBar = ({ onFilterChange, initialFilters = {} }) => {
               onClick={handleApplyPrice}
               className="text-xs bg-brand-500 hover:opacity-80 text-white font-medium px-4 py-1.5 rounded-full transition-all"
             >
-              Terapkan
+              Apply
             </button>
           </div>
         </div>

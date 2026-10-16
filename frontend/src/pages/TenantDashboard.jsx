@@ -25,24 +25,24 @@ const CancelModal = ({ onConfirm, onCancel, isLoading }) => (
           <AlertCircle className="w-5 h-5 text-rose-500 stroke-[1.5]" />
         </div>
         <h3 className="text-base font-semibold text-ink text-center tracking-snug mb-1">
-          Batalkan pengajuan sewa?
+          Cancel rental request?
         </h3>
         <p className="text-sm text-mutedtext text-center mb-6 leading-relaxed">
-          Tindakan ini tidak dapat dibatalkan. Pengajuan sewa akan dihapus dari daftar aktif.
+          This action cannot be undone. The rental request will be removed from the active list.
         </p>
         <div className="flex gap-3">
           <button
             onClick={onCancel}
             className="flex-1 py-2.5 text-sm font-medium text-ink border border-hairline rounded-xl hover:bg-gray-50 transition-colors"
           >
-            Kembali
+            Go Back
           </button>
           <button
             onClick={onConfirm}
             disabled={isLoading}
             className="flex-1 py-2.5 text-sm font-semibold text-white bg-rose-500 hover:bg-rose-600 rounded-xl transition-colors disabled:opacity-60"
           >
-            {isLoading ? 'Membatalkan...' : 'Ya, Batalkan'}
+            {isLoading ? 'Cancelling...' : 'Yes, Cancel'}
           </button>
         </div>
       </div>
@@ -86,7 +86,7 @@ const TenantDashboard = () => {
       setCancelTarget(null);
       fetchBookings();
     } catch (error) {
-      console.error(error.response?.data?.message || 'Gagal membatalkan booking');
+      console.error(error.response?.data?.message || 'Failed to cancel booking');
     } finally {
       setIsCancelling(false);
     }
@@ -98,27 +98,27 @@ const TenantDashboard = () => {
         return (
           <span className="inline-flex items-center space-x-1 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Disetujui (Booked)</span>
+            <span>Approved (Booked)</span>
           </span>
         );
       case 'pending':
         return (
           <span className="inline-flex items-center space-x-1 px-3 py-1 text-xs font-semibold rounded-full bg-amber-50 text-amber-800 border border-amber-200">
             <Clock className="w-3.5 h-3.5 text-amber-600" />
-            <span>Menunggu Konfirmasi</span>
+            <span>Pending Confirmation</span>
           </span>
         );
       case 'cancelled':
         return (
           <span className="inline-flex items-center space-x-1 px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-700">
-            <span>Dibatalkan</span>
+            <span>Cancelled</span>
           </span>
         );
       case 'rejected':
         return (
           <span className="inline-flex items-center space-x-1 px-3 py-1 text-xs font-semibold rounded-full bg-rose-50 text-rose-800 border border-rose-200">
             <XCircle className="w-3.5 h-3.5 text-rose-600" />
-            <span>Ditolak</span>
+            <span>Rejected</span>
           </span>
         );
       default:
@@ -157,18 +157,18 @@ const TenantDashboard = () => {
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl font-semibold tracking-snug text-ink">{user?.name}</h1>
                 <span className="text-[10px] uppercase tracking-[0.15em] font-semibold px-2.5 py-1 rounded-full bg-brand-50 text-brand-600 border border-brand-100">
-                  Penyewa
+                  Tenant
                 </span>
               </div>
               <p className="text-sm text-mutedtext mt-1">
-                {user?.email} · {user?.phone || 'Nomor HP belum diatur'}
+                {user?.email} · {user?.phone || 'Phone number not set'}
               </p>
             </div>
           </div>
 
           <Link to="/">
             <Button variant="secondary" size="sm">
-              Cari Hunian Lainnya
+              Find More Rentals
             </Button>
           </Link>
         </div>
@@ -185,7 +185,7 @@ const TenantDashboard = () => {
           }`}
         >
           <Calendar className="w-4 h-4" />
-          <span>Pengajuan Sewa ({bookings.length})</span>
+          <span>Rental Requests ({bookings.length})</span>
         </button>
         <button
           onClick={() => setActiveTab('wishlist')}
@@ -196,7 +196,7 @@ const TenantDashboard = () => {
           }`}
         >
           <Heart className="w-4 h-4" />
-          <span>Properti Favorit ({wishlist.length})</span>
+          <span>Saved Properties ({wishlist.length})</span>
         </button>
       </div>
 
@@ -212,12 +212,12 @@ const TenantDashboard = () => {
           ) : bookings.length === 0 ? (
             <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
               <Building className="w-12 h-12 text-gray-300 mx-auto mb-3 stroke-[1.5]" />
-              <h3 className="text-base font-bold text-ink">Belum Ada Pengajuan Sewa</h3>
+              <h3 className="text-base font-bold text-ink">No Rental Requests Yet</h3>
               <p className="text-xs text-mutedtext mt-1 mb-6">
-                Anda belum pernah mengajukan reservasi sewa. Temukan hunian impian Anda sekarang!
+                You haven't submitted any rental requests. Find your ideal place now!
               </p>
               <Link to="/">
-                <Button variant="primary" size="sm">Jelajahi Properti</Button>
+                <Button variant="primary" size="sm">Explore Properties</Button>
               </Link>
             </div>
           ) : (
@@ -247,13 +247,13 @@ const TenantDashboard = () => {
 
                       <Link to={`/properties/${booking.property?._id}`}>
                         <h3 className="font-bold text-ink text-base hover:text-brand-700 transition-colors mt-1">
-                          {booking.property?.title || 'Properti Sewa'}
+                          {booking.property?.title || 'Rental Property'}
                         </h3>
                       </Link>
 
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-mutedtext mt-1.5">
                         <span>
-                          Durasi: <strong className="text-ink">{formatDate(booking.startDate)} – {formatDate(booking.endDate)}</strong>
+                          Duration: <strong className="text-ink">{formatDate(booking.startDate)} – {formatDate(booking.endDate)}</strong>
                         </span>
                         <span>
                           Total: <strong className="text-brand-800">{formatRupiah(booking.totalPrice)}</strong>
@@ -276,7 +276,7 @@ const TenantDashboard = () => {
                         onClick={() => setCancelTarget(booking._id)}
                         className="text-xs text-rose-600 hover:text-rose-800 font-semibold px-3 py-1.5 rounded-lg border border-rose-200 hover:bg-rose-50 transition-colors"
                       >
-                        Batalkan Sewa
+                        Cancel Request
                       </button>
                     )}
                   </div>
@@ -291,12 +291,12 @@ const TenantDashboard = () => {
           {wishlist.length === 0 ? (
             <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
               <Heart className="w-12 h-12 text-gray-300 mx-auto mb-3 stroke-[1.5]" />
-              <h3 className="text-base font-bold text-ink">Wishlist Masih Kosong</h3>
+              <h3 className="text-base font-bold text-ink">Your Wishlist is Empty</h3>
               <p className="text-xs text-mutedtext mt-1 mb-6">
-                Simpan unit hunian favorit Anda dengan menekan ikon hati pada kartu properti.
+                Save your favourite rentals by tapping the heart icon on any property card.
               </p>
               <Link to="/">
-                <Button variant="primary" size="sm">Jelajahi Properti</Button>
+                <Button variant="primary" size="sm">Explore Properties</Button>
               </Link>
             </div>
           ) : (

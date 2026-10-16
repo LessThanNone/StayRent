@@ -34,7 +34,7 @@ const OwnerDashboard = () => {
     description: '',
     price: '',
     pricePeriod: 'monthly',
-    propertyType: 'Kost',
+    propertyType: 'Boarding House',
     street: '',
     city: '',
     province: '',
@@ -77,7 +77,7 @@ const OwnerDashboard = () => {
       await bookingService.updateBookingStatus(bookingId, status);
       loadData();
     } catch (error) {
-      setBookingActionError(error.response?.data?.message || 'Gagal mengubah status sewa');
+      setBookingActionError(error.response?.data?.message || 'Failed to update booking status.');
     }
   };
 
@@ -142,7 +142,7 @@ const OwnerDashboard = () => {
         description: '',
         price: '',
         pricePeriod: 'monthly',
-        propertyType: 'Kost',
+        propertyType: 'Boarding House',
         street: '',
         city: '',
         province: '',
@@ -174,16 +174,16 @@ const OwnerDashboard = () => {
               <div className="w-10 h-10 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center mx-auto mb-4">
                 <Trash2 className="w-5 h-5 text-rose-500 stroke-[1.5]" />
               </div>
-              <h3 className="text-base font-semibold text-ink text-center tracking-snug mb-1">Hapus iklan ini?</h3>
+              <h3 className="text-base font-semibold text-ink text-center tracking-snug mb-1">Delete this listing?</h3>
               <p className="text-sm text-mutedtext text-center mb-6 leading-relaxed">
-                Data yang dihapus tidak dapat dipulihkan. Semua informasi properti ini akan hilang permanen.
+                Deleted data cannot be recovered. All information for this property will be permanently lost.
               </p>
               <div className="flex gap-3">
                 <button onClick={() => setDeleteTarget(null)} className="flex-1 py-2.5 text-sm font-medium text-ink border border-hairline rounded-xl hover:bg-gray-50 transition-colors">
-                  Batal
+                  Cancel
                 </button>
                 <button onClick={() => handleDeleteProperty(deleteTarget)} className="flex-1 py-2.5 text-sm font-semibold text-white bg-rose-500 hover:bg-rose-600 rounded-xl transition-colors">
-                  Ya, Hapus
+                  Yes, Delete
                 </button>
               </div>
             </div>
@@ -207,22 +207,22 @@ const OwnerDashboard = () => {
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl font-semibold tracking-snug text-ink">{user?.name}</h1>
                 <span className="text-[10px] uppercase tracking-[0.15em] font-semibold px-2.5 py-1 rounded-full bg-brand-50 text-brand-600 border border-brand-100">
-                  Pemilik Properti
+                  Property Owner
                 </span>
                 {user?.isApproved ? (
                   <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                     <ShieldCheck className="w-3 h-3" />
-                    Terverifikasi
+                    Verified
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
                     <Clock className="w-3 h-3" />
-                    Menunggu Verifikasi
+                    Pending Verification
                   </span>
                 )}
               </div>
               <p className="text-sm text-mutedtext mt-1">
-                {user?.email} · {user?.phone || 'Nomor HP belum diatur'}
+                {user?.email} · {user?.phone || 'Phone number not set'}
               </p>
             </div>
           </div>
@@ -238,7 +238,7 @@ const OwnerDashboard = () => {
             disabled={!user?.isApproved}
           >
             <Plus className="w-4 h-4 mr-1.5 stroke-[2]" />
-            Pasang Iklan Baru
+            Post New Listing
           </Button>
         </div>
       </div>
@@ -254,7 +254,7 @@ const OwnerDashboard = () => {
           }`}
         >
           <Building className="w-4 h-4" />
-          <span>Daftar Properti ({myProperties.length})</span>
+          <span>My Listings ({myProperties.length})</span>
         </button>
 
         <button
@@ -266,10 +266,10 @@ const OwnerDashboard = () => {
           }`}
         >
           <Calendar className="w-4 h-4" />
-          <span>Pengajuan Masuk ({incomingBookings.length})</span>
+          <span>Incoming Requests ({incomingBookings.length})</span>
           {pendingCount > 0 && (
             <span className="ml-1 px-2 py-0.2 rounded-full text-[10px] bg-amber-500 text-white font-bold">
-              {pendingCount} baru
+              {pendingCount} new
             </span>
           )}
         </button>
@@ -284,7 +284,7 @@ const OwnerDashboard = () => {
           } ${!user?.isApproved ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
           <Plus className="w-4 h-4" />
-          <span>Formulir Tambah Properti</span>
+          <span>Add Property Form</span>
         </button>
       </div>
 
@@ -294,12 +294,12 @@ const OwnerDashboard = () => {
           {myProperties.length === 0 ? (
             <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
               <Building className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <h3 className="text-base font-bold text-ink">Belum Ada Properti yang Diiklankan</h3>
+              <h3 className="text-base font-bold text-ink">No Listings Yet</h3>
               <p className="text-xs text-mutedtext mt-1 mb-6">
-                Mulai pasang iklan kost atau rumah kontrakan Anda untuk mendapatkan penyewa sekarang.
+                Start listing your kost or rental house to find tenants now.
               </p>
               <Button variant="primary" size="sm" onClick={() => setActiveTab('add')}>
-                Mulai Pasang Iklan
+                Post Your First Listing
               </Button>
             </div>
           ) : (
@@ -327,7 +327,7 @@ const OwnerDashboard = () => {
                         prop.isAvailable ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
                       }`}
                     >
-                      {prop.isAvailable ? 'Siap Huni' : 'Dipesan'}
+                      {prop.isAvailable ? 'Available' : 'Booked'}
                     </span>
                   </div>
 
@@ -336,7 +336,7 @@ const OwnerDashboard = () => {
                       <h3 className="font-bold text-ink text-sm line-clamp-1">{prop.title}</h3>
                       <p className="text-xs text-mutedtext mt-0.5">{prop.address?.city}</p>
                       <p className="text-sm font-bold text-brand-800 mt-2">
-                        {formatRupiah(prop.price)}/{prop.pricePeriod === 'monthly' ? 'bulan' : 'tahun'}
+                        {formatRupiah(prop.price)}/{prop.pricePeriod === 'monthly' ? 'month' : 'year'}
                       </p>
                     </div>
 
@@ -347,7 +347,7 @@ const OwnerDashboard = () => {
                           className="text-xs font-semibold text-brand-700 hover:text-brand-900 inline-flex items-center"
                         >
                           <Eye className="w-3.5 h-3.5 mr-1" />
-                          <span>Lihat</span>
+                          <span>View</span>
                         </Link>
                         <Link
                           to={`/owner/property/edit/${prop._id}`}
@@ -360,7 +360,7 @@ const OwnerDashboard = () => {
                       <button
                         onClick={() => setDeleteTarget(prop._id)}
                         className="text-xs text-rose-600 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50 transition-colors"
-                        title="Hapus Iklan"
+                        title="Delete Listing"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -385,9 +385,9 @@ const OwnerDashboard = () => {
           {incomingBookings.length === 0 ? (
             <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
               <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <h3 className="text-base font-bold text-ink">Belum Ada Pengajuan Masuk</h3>
+              <h3 className="text-base font-bold text-ink">No Incoming Requests</h3>
               <p className="text-xs text-mutedtext mt-1">
-                Permohonan sewa dari calon penyewa akan muncul di sini untuk Anda setujui atau tolak.
+                Rental requests from prospective tenants will appear here for you to approve or reject.
               </p>
             </div>
           ) : (
@@ -402,7 +402,7 @@ const OwnerDashboard = () => {
                       ID: #{b._id.slice(-6)}
                     </span>
                     <span className="text-xs text-mutedtext font-medium">
-                      Diajukan {formatDate(b.createdAt)}
+                      Submitted {formatDate(b.createdAt)}
                     </span>
                   </div>
 
@@ -427,7 +427,7 @@ const OwnerDashboard = () => {
 
                   {b.notes && (
                     <p className="text-xs text-mutedtext italic mt-2 bg-gray-50 p-2 rounded-lg inline-block">
-                      Catatan penyewa: "{b.notes}"
+                      Tenant note: "{b.notes}"
                     </p>
                   )}
                 </div>
@@ -452,14 +452,14 @@ const OwnerDashboard = () => {
                         className="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors"
                       >
                         <Check className="w-3.5 h-3.5" />
-                        <span>Setujui</span>
+                        <span>Approve</span>
                       </button>
                       <button
                         onClick={() => handleBookingAction(b._id, 'rejected')}
                         className="inline-flex items-center space-x-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors"
                       >
                         <X className="w-3.5 h-3.5" />
-                        <span>Tolak</span>
+                        <span>Reject</span>
                       </button>
                     </div>
                   )}
@@ -474,17 +474,17 @@ const OwnerDashboard = () => {
       {activeTab === 'add' && !user?.isApproved && (
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 max-w-2xl mx-auto text-center">
           <Clock className="w-10 h-10 text-amber-500 mx-auto mb-3 stroke-[1.5]" />
-          <h3 className="text-base font-bold text-amber-900 mb-1">Akun Belum Terverifikasi</h3>
+          <h3 className="text-base font-bold text-amber-900 mb-1">Account Not Yet Verified</h3>
           <p className="text-sm text-amber-700">
-            Akun Anda sedang dalam proses verifikasi oleh Admin. Setelah disetujui, Anda dapat mulai memasang iklan properti.
+            Your account is currently being reviewed by an Admin. Once approved, you can start posting property listings.
           </p>
         </div>
       )}
       {activeTab === 'add' && user?.isApproved && (
         <div className="bg-white rounded-3xl border border-hairline p-6 md:p-10 max-w-3xl shadow-sm">
-          <h2 className="text-xl font-bold text-ink mb-1">Pasang Iklan Properti Baru</h2>
+          <h2 className="text-xl font-bold text-ink mb-1">Post a New Property Listing</h2>
           <p className="text-xs text-mutedtext mb-6">
-            Lengkapi detail hunian agar calon penyewa dapat menemukan informasi yang akurat dan lengkap
+            Fill in the property details so prospective tenants can find accurate and complete information
           </p>
 
           {formError && (
@@ -497,7 +497,7 @@ const OwnerDashboard = () => {
           <form onSubmit={handleCreateProperty} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Judul Iklan Properti
+                Property Listing Title
               </label>
               <input
                 type="text"
@@ -512,24 +512,24 @@ const OwnerDashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Tipe Hunian
+                  Property Type
                 </label>
                 <select
                   value={formData.propertyType}
                   onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                   className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
                 >
-                  <option value="Kost">Kost Eksklusif</option>
-                  <option value="Kontrakan">Kontrakan Rumah</option>
-                  <option value="Apartment">Apartemen</option>
-                  <option value="Villa">Villa Liburan</option>
-                  <option value="House">Rumah Tinggal</option>
+                  <option value="Boarding House">Boarding House (Kost)</option>
+                  <option value="Rented House">Rented House (Kontrakan)</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="Villa">Holiday Villa</option>
+                  <option value="House">Residential House</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Harga Sewa (Rp)
+                  Rental Price (Rp)
                 </label>
                 <input
                   type="number"
@@ -543,16 +543,16 @@ const OwnerDashboard = () => {
 
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Periode Sewa
+                  Rental Period
                 </label>
                 <select
                   value={formData.pricePeriod}
                   onChange={(e) => setFormData({ ...formData, pricePeriod: e.target.value })}
                   className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
                 >
-                  <option value="monthly">Per Bulan</option>
-                  <option value="yearly">Per Tahun</option>
-                  <option value="daily">Per Malam / Hari</option>
+                  <option value="monthly">Per Month</option>
+                  <option value="yearly">Per Year</option>
+                  <option value="daily">Per Night / Day</option>
                 </select>
               </div>
             </div>
@@ -560,7 +560,7 @@ const OwnerDashboard = () => {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Kamar Tidur
+                  Bedrooms
                 </label>
                 <input
                   type="number"
@@ -572,7 +572,7 @@ const OwnerDashboard = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Kamar Mandi
+                  Bathrooms
                 </label>
                 <input
                   type="number"
@@ -584,7 +584,7 @@ const OwnerDashboard = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Luas (m²)
+                  Area (m²)
                 </label>
                 <input
                   type="number"
@@ -599,7 +599,7 @@ const OwnerDashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Alamat Jalan
+                  Street Address
                 </label>
                 <input
                   type="text"
@@ -612,7 +612,7 @@ const OwnerDashboard = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Kota / Wilayah
+                  City / Region
                 </label>
                 <input
                   type="text"
@@ -625,7 +625,7 @@ const OwnerDashboard = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink mb-1">
-                  Provinsi
+                  Province
                 </label>
                 <input
                   type="text"
@@ -640,7 +640,7 @@ const OwnerDashboard = () => {
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Deskripsi Lengkap Hunian
+                Full Property Description
               </label>
               <textarea
                 rows={4}
@@ -655,7 +655,7 @@ const OwnerDashboard = () => {
             {/* Amenities Selectors */}
             <div>
               <label className="block text-sm font-medium text-ink mb-2">
-                Pilih Fasilitas yang Tersedia (Amenities)
+                Select Available Amenities
               </label>
               <div className="flex flex-wrap gap-2">
                 {AMENITIES_LIST.map((amenity) => (
@@ -679,7 +679,7 @@ const OwnerDashboard = () => {
             {/* Rules Selectors */}
             <div>
               <label className="block text-sm font-medium text-ink mb-2">
-                Pilih Peraturan Rumah (House Rules)
+                Select House Rules
               </label>
               <div className="flex flex-wrap gap-2">
                 {RULES_LIST.map((rule) => (
@@ -703,7 +703,7 @@ const OwnerDashboard = () => {
             {/* Multer Multi-image upload */}
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Unggah Foto Properti (Maksimal 5 Foto)
+                Upload Property Photos (Max 5)
               </label>
               <input
                 type="file"
@@ -713,7 +713,7 @@ const OwnerDashboard = () => {
                 className="w-full text-xs p-2.5 bg-gray-50 border border-gray-200 rounded-xl file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-800 hover:file:bg-brand-100 cursor-pointer"
               />
               <p className="text-[11px] text-mutedtext mt-1">
-                Format didukung: JPG, PNG, WEBP (Maks 5 MB per foto). Foto pertama akan menjadi sampul utama.
+                Supported formats: JPG, PNG, WEBP (Max 5 MB per photo). The first photo will be the main cover.
               </p>
             </div>
 
@@ -723,7 +723,7 @@ const OwnerDashboard = () => {
               className="w-full py-3.5 text-sm"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Mengunggah Data Listing...' : 'Publikasikan Iklan Properti Sekarang'}
+              {isSubmitting ? 'Publishing Listing...' : 'Publish Property Listing Now'}
             </Button>
           </form>
         </div>

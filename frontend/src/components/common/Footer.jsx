@@ -21,16 +21,16 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-mutedtext leading-relaxed max-w-xs">
-              Platform sewa kost, rumah, dan apartemen terpercaya. Booking transparan, ulasan asli, komunikasi langsung dengan pemilik.
+              Trusted platform for renting kosts, houses, and apartments. Transparent booking, genuine reviews, and direct owner contact.
             </p>
             <div className="flex flex-col space-y-2 pt-1 text-sm text-mutedtext">
               <span className="flex items-center space-x-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                <span>Transaksi Terverifikasi</span>
+                <span>Verified Transactions</span>
               </span>
               <span className="flex items-center space-x-1.5">
                 <PhoneCall className="w-4 h-4 text-brand-500 flex-shrink-0" />
-                <span>Bantuan 24/7</span>
+                <span>24/7 Support</span>
               </span>
             </div>
           </div>
@@ -38,24 +38,24 @@ const Footer = () => {
           {/* Quick Info: Ragam Hunian */}
           <div>
             <h4 className="text-xs font-semibold text-ink tracking-wide uppercase mb-4">
-              Pilihan Hunian
+              Rental Types
             </h4>
             <ul className="space-y-2.5 text-sm text-mutedtext">
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                <span>Kost Eksklusif & Mahasiswa</span>
+                <span>Exclusive & Student Kost</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                <span>Kontrakan Rumah Keluarga</span>
+                <span>Family House Rental</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                <span>Apartemen Studio & Furnished</span>
+                <span>Studio & Furnished Apartments</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                <span>Villa & Rumah Liburan</span>
+                <span>Villa & Holiday Homes</span>
               </li>
             </ul>
           </div>
@@ -63,28 +63,28 @@ const Footer = () => {
           {/* Service Values & Legal */}
           <div>
             <h4 className="text-xs font-semibold text-ink tracking-wide uppercase mb-4">
-              Komitmen Layanan
+              Our Commitment
             </h4>
             <ul className="space-y-2.5 text-sm text-mutedtext">
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                <span>Verifikasi Listing & Bebas Unit Fiktif</span>
+                <span>Verified Listings — No Fake Units</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                <span>Ulasan Riil dari Penyewa Sebelumnya</span>
+                <span>Real Reviews from Previous Tenants</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                <span>Pemesanan Tanpa Biaya Perantara</span>
+                <span>Book with No Agency Fees</span>
               </li>
             </ul>
             <div className="mt-5 pt-5 border-t border-hairline flex flex-col space-y-2 text-sm text-mutedtext">
-              <a href="#kebijakan-privasi" onClick={(e) => e.preventDefault()} className="hover:text-brand-500 transition-colors">
-                Kebijakan Privasi
+              <a href="#privacy-policy" onClick={(e) => e.preventDefault()} className="hover:text-brand-500 transition-colors">
+                Privacy Policy
               </a>
-              <a href="#syarat-ketentuan" onClick={(e) => e.preventDefault()} className="hover:text-brand-500 transition-colors">
-                Syarat & Ketentuan
+              <a href="#terms-conditions" onClick={(e) => e.preventDefault()} className="hover:text-brand-500 transition-colors">
+                Terms & Conditions
               </a>
             </div>
           </div>
@@ -92,9 +92,9 @@ const Footer = () => {
 
         {/* Legal Sub-Band */}
         <div className="border-t border-hairline mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-mutedtext gap-3">
-          <p>© {new Date().getFullYear()} StayRent. Seluruh hak cipta dilindungi.</p>
+          <p>© {new Date().getFullYear()} StayRent. All rights reserved.</p>
           <div className="flex items-center space-x-4">
-            <span className="hover:text-ink cursor-pointer transition-colors">Bahasa Indonesia</span>
+            <span className="hover:text-ink cursor-pointer transition-colors">English</span>
             <span>·</span>
             <span className="hover:text-ink cursor-pointer transition-colors">IDR (Rp)</span>
           </div>

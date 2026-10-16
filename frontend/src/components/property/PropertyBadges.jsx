@@ -22,35 +22,32 @@ import {
 
 const iconDictionary = {
   // Amenities
-  'Wi-Fi Cepat': Wifi,
+  'Fast Wi-Fi': Wifi,
   WiFi: Wifi,
   'Air Conditioning (AC)': Wind,
   AC: Wind,
-  'Kamar Mandi Dalam': Bath,
-  'Parkir Gratis': Car,
-  'Parkir Mobil & Motor': Car,
+  'Private Bathroom': Bath,
+  'Free Parking': Car,
+  'Car & Motorcycle Parking': Car,
   Parking: Car,
-  'Dapur Lengkap': Utensils,
+  'Fully Equipped Kitchen': Utensils,
   Kitchen: Utensils,
   'Smart TV': Tv,
   TV: Tv,
-  'Kolam Renang': Waves,
   'Swimming Pool': Waves,
-  'Keamanan 24 Jam': ShieldCheck,
+  '24-Hour Security': ShieldCheck,
   'Water Heater': Flame,
-  'Meja Kerja & Kursi': Laptop,
+  'Desk & Chair': Laptop,
 
   // Rules
-  'Dilarang Merokok': CigaretteOff,
   'No Smoking': CigaretteOff,
-  'Dilarang Bawa Hewan': PawPrint,
+  'No Pets Allowed': PawPrint,
   'No Pets': PawPrint,
-  'Boleh Bawa Hewan': PawPrint,
   'Pet Friendly': PawPrint,
-  'Dilarang Pesta / Bising': PartyPopper,
+  'No Parties / Noise': PartyPopper,
   'No Parties': PartyPopper,
-  'Akses 24 Jam Bebas': Clock,
-  'Batas Tamu Tertentu': Users,
+  '24-Hour Access': Clock,
+  'Limited Guests': Users,
 };
 
 /**
@@ -97,9 +94,6 @@ const PropertyBadges = ({ items = [], type = 'amenity', variant = 'pills' }) => 
                 <span className="text-xs font-semibold block truncate leading-tight">
                   {item}
                 </span>
-                {isAmenity && (
-                  <span className="text-[11px] text-mutedtext block">Tersedia Lengkap</span>
-                )}
               </div>
             </div>
           );

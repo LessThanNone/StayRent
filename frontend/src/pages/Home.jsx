@@ -31,12 +31,12 @@ const Home = () => {
   const listingsRef  = useReveal();
 
   const categories = [
-    { id: 'Semua',     label: 'Semua Tipe' },
-    { id: 'Kost',      label: 'Kost' },
-    { id: 'Kontrakan', label: 'Kontrakan' },
-    { id: 'Apartment', label: 'Apartemen' },
-    { id: 'Villa',     label: 'Villa' },
-    { id: 'House',     label: 'Rumah' },
+    { id: 'Semua',          label: 'All Types' },
+    { id: 'Boarding House', label: 'Boarding House' },
+    { id: 'Rented House',   label: 'Rented House' },
+    { id: 'Apartment',      label: 'Apartment' },
+    { id: 'Villa',          label: 'Villa' },
+    { id: 'House',          label: 'House' },
   ];
 
   useEffect(() => { fetchProperties(filters); }, [filters]);
@@ -101,26 +101,26 @@ const Home = () => {
             {/* Left — Typography (Widened across 7 columns) */}
             <div className="lg:col-span-7 hero-text-enter flex flex-col justify-center">
               <span className="inline-flex items-center rounded-full px-3.5 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-brand-50 text-brand-600 border border-brand-100 mb-6 w-fit">
-                Cari · Sewa · Tinggal
+                Find · Rent · Stay
               </span>
 
               <h1 className="text-[44px] sm:text-[56px] lg:text-[68px] font-semibold tracking-display leading-[1.12] text-ink mb-6 max-w-2xl">
-                Hunian sewa yang benar-<span className="text-brand-500">benar cocok</span>
+                Rental homes that truly <span className="text-brand-500">fit you</span>
               </h1>
 
               <p className="text-[16px] sm:text-[17px] text-mutedtext leading-relaxed max-w-xl mb-8">
-                Kost, kontrakan, dan apartemen terverifikasi di seluruh Indonesia. Booking transparan, ulasan nyata penyewa, dan kontak langsung ke pemilik unit.
+                Verified kosts, boarding houses, and apartments across Indonesia. Transparent booking, genuine tenant reviews, and direct contact with property owners.
               </p>
 
               {/* Quick perks preview */}
               <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-mutedtext">
                 <span className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span className="font-medium text-ink">100% Terverifikasi</span>
+                  <span className="font-medium text-ink">100% Verified</span>
                 </span>
                 <span className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-brand-500" />
-                  <span className="font-medium text-ink">Bebas Biaya Perantara</span>
+                  <span className="font-medium text-ink">No Agency Fees</span>
                 </span>
                 <span className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -135,7 +135,7 @@ const Home = () => {
                 <div className="relative overflow-hidden bg-slate-900 group rounded-[1.75rem]">
                   <img
                     src={heroHouseImg}
-                    alt="Hunian modern siap huni"
+                    alt="Modern rental home ready to move in"
                     className="w-full h-[400px] sm:h-[480px] object-cover object-center transition-transform duration-700 ease-spring group-hover:scale-105"
                   />
                 </div>
@@ -146,9 +146,9 @@ const Home = () => {
           {/* Stats strip */}
           <div className="hero-stats-enter grid grid-cols-3 gap-4 sm:gap-8 mt-16 pt-8 border-t border-hairline">
             {[
-              { value: '2.400+', label: 'Properti Aktif' },
-              { value: '14 Kota', label: 'Wilayah Cakupan' },
-              { value: '98%', label: 'Penyewa Puas' },
+              { value: '2,400+', label: 'Active Listings' },
+              { value: '14 Cities', label: 'Coverage Area' },
+              { value: '98%', label: 'Satisfied Tenants' },
             ].map((s) => (
               <div key={s.label}>
                 <span className="block text-2xl sm:text-3xl font-semibold tracking-heading text-ink tabular-nums">{s.value}</span>
@@ -163,10 +163,10 @@ const Home = () => {
       <section className="py-20 bg-white border-t border-hairline">
         <div ref={benefitsRef} className="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-500 mb-3">
-            Keunggulan Platform
+            Platform Advantages
           </span>
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-heading leading-heading text-ink mb-12 max-w-xl">
-            Platform yang Berpihak Penuh pada Kenyamanan Penyewa
+            A Platform Fully Dedicated to Tenant Comfort
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -179,13 +179,13 @@ const Home = () => {
                 <div>
                   <ShieldCheck className="w-8 h-8 mb-6 opacity-80 stroke-[1.5] text-white" />
                   <h4 className="text-xl font-semibold text-white mb-3 leading-snug">
-                    Semua listing diverifikasi sebelum tayang
+                    All listings verified before going live
                   </h4>
                   <p className="text-white/80 text-sm leading-relaxed max-w-md">
-                    Tim kami memverifikasi setiap properti dengan mengecek alamat, foto, dan fasilitas secara langsung sebelum listing muncul di platform. Tidak ada unit fiktif.
+                    Our team verifies every property by checking the address, photos, and facilities directly before the listing appears on the platform. No fake units.
                   </p>
                 </div>
-                <p className="text-white/60 text-xs mt-8">Berlaku untuk seluruh unit terdaftar</p>
+                <p className="text-white/60 text-xs mt-8">Applies to all registered units</p>
               </div>
             </div>
 
@@ -194,18 +194,18 @@ const Home = () => {
               <div className="p-2 bg-gray-100/60 ring-1 ring-black/5 rounded-[1.5rem] flex-1">
                 <div className="bg-white rounded-[1.125rem] p-6 h-full" style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.9)' }}>
                   <KeyRound className="w-5 h-5 text-brand-500 mb-4 stroke-[1.5]" />
-                  <h4 className="text-sm font-semibold text-ink mb-1.5">Semua tipe hunian</h4>
+                  <h4 className="text-sm font-semibold text-ink mb-1.5">All rental types</h4>
                   <p className="text-xs text-mutedtext leading-relaxed">
-                    Kost, kontrakan, apartemen, dan villa dalam satu platform terpadu.
+                    Boarding houses, rented houses, apartments, and villas in one unified platform.
                   </p>
                 </div>
               </div>
               <div className="p-2 bg-gray-100/60 ring-1 ring-black/5 rounded-[1.5rem] flex-1">
                 <div className="bg-white rounded-[1.125rem] p-6 h-full" style={{ boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.9)' }}>
                   <MessageCircle className="w-5 h-5 text-brand-500 mb-4 stroke-[1.5]" />
-                  <h4 className="text-sm font-semibold text-ink mb-1.5">Langsung ke pemilik</h4>
+                  <h4 className="text-sm font-semibold text-ink mb-1.5">Direct to owner</h4>
                   <p className="text-xs text-mutedtext leading-relaxed">
-                    Hubungi pemilik langsung via WhatsApp tanpa perantara dan tanpa biaya tersembunyi.
+                    Contact the owner directly via WhatsApp with no middleman and no hidden fees.
                   </p>
                 </div>
               </div>
@@ -226,7 +226,7 @@ const Home = () => {
 
             {/* Quick Category Pills */}
             <div className="flex items-center justify-center flex-wrap gap-2">
-              <span className="text-xs text-mutedtext font-medium mr-2">Cari cepat:</span>
+              <span className="text-xs text-mutedtext font-medium mr-2">Quick search:</span>
               {categories.map((cat) => (
                 <button
                   key={cat.id}
@@ -246,14 +246,14 @@ const Home = () => {
           <div className="flex items-end justify-between mb-8 pt-4 border-t border-hairline/80">
             <div>
               <span className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-500 mb-2">
-                Listing Terbaru
+                Latest Listings
               </span>
               <h2 className="text-2xl sm:text-3xl font-semibold tracking-heading text-ink">
-                Pilihan Hunian Populer
+                Popular Rentals
               </h2>
             </div>
             <p className="text-sm text-mutedtext hidden sm:block">
-              {properties.length} properti tersedia
+              {properties.length} {properties.length === 1 ? 'property' : 'properties'} available
             </p>
           </div>
 
@@ -267,9 +267,9 @@ const Home = () => {
             <div className="p-2 bg-gray-100/60 ring-1 ring-black/5 rounded-[1.5rem] max-w-md mx-auto my-8">
               <div className="bg-white rounded-[1.125rem] p-12 text-center">
                 <Building className="w-10 h-10 text-mutedtext mx-auto mb-3 stroke-[1.5]" />
-                <h3 className="text-base font-semibold text-ink">Belum ada properti ditemukan</h3>
+                <h3 className="text-base font-semibold text-ink">No properties found</h3>
                 <p className="text-sm text-mutedtext mt-2 leading-relaxed">
-                  Sesuaikan kata kunci, pilih kota lain, atau matikan filter ketersediaan.
+                  Try adjusting your search, pick a different city, or turn off the availability filter.
                 </p>
               </div>
             </div>

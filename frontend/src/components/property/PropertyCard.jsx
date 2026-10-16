@@ -21,10 +21,10 @@ const PropertyCard = ({ property }) => {
 
   const periodLabel =
     property.pricePeriod === 'monthly'
-      ? 'bulan'
+      ? 'month'
       : property.pricePeriod === 'yearly'
-      ? 'tahun'
-      : 'malam';
+      ? 'year'
+      : 'night';
 
   return (
     <div className="group flex flex-col bg-white rounded-[14px] overflow-hidden transition-all duration-300 shadow-airbnb hover:-translate-y-1 hover:shadow-airbnb-hover">
@@ -48,7 +48,7 @@ const PropertyCard = ({ property }) => {
                 : 'bg-white/90 text-rose-600'
             }`}
           >
-            {property.isAvailable ? 'Siap Huni' : 'Sudah Dipesan'}
+            {property.isAvailable ? 'Available' : 'Fully Booked'}
           </span>
         </div>
 
@@ -78,7 +78,7 @@ const PropertyCard = ({ property }) => {
             {/* Airbnb: rating in ink (near-black), not gold */}
             <span className="flex items-center font-medium text-ink shrink-0">
               <Star className="w-3 h-3 mr-0.5 fill-amber-400 text-amber-400" />
-              {property.rating > 0 ? property.rating.toFixed(1) : 'Baru'}
+              {property.rating > 0 ? property.rating.toFixed(1) : 'New'}
               {property.numReviews > 0 && (
                 <span className="text-mutedtext font-normal ml-0.5">({property.numReviews})</span>
               )}
@@ -125,7 +125,7 @@ const PropertyCard = ({ property }) => {
             to={`/properties/${property._id}`}
             className="text-xs text-brand-500 hover:text-brand-800 font-medium"
           >
-            Lihat detail
+            View details
           </Link>
         </div>
       </div>

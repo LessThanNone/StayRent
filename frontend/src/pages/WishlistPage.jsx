@@ -14,15 +14,15 @@ const WishlistPage = () => {
         <div>
           <h1 className="text-2xl font-medium text-ink flex items-center gap-2">
             <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
-            <span>Favorit Saya</span>
+            <span>My Favourites</span>
           </h1>
           <p className="text-xs text-mutedtext mt-0.5">
-            Daftar kost, kontrakan, dan hunian sewa yang Anda simpan untuk disewa nanti
+            Kosts, rentals, and properties you've saved for later
           </p>
         </div>
         <Link to="/">
           <Button variant="secondary" size="sm">
-            Jelajahi Hunian
+            Explore Properties
           </Button>
         </Link>
       </div>
@@ -36,12 +36,12 @@ const WishlistPage = () => {
       ) : wishlist.length === 0 ? (
         <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
           <Heart className="w-12 h-12 text-gray-300 mx-auto mb-3 stroke-[1.5]" />
-          <h3 className="text-base font-bold text-ink">Wishlist Anda Masih Kosong</h3>
+          <h3 className="text-base font-bold text-ink">Your Wishlist is Empty</h3>
           <p className="text-xs text-mutedtext mt-1 mb-6">
-            Klik ikon hati pada properti mana pun untuk menyimpannya ke daftar wishlist pribadi Anda.
+            Tap the heart icon on any property to save it to your personal wishlist.
           </p>
           <Link to="/">
-            <Button variant="primary" size="sm">Cari Properti Sekarang</Button>
+            <Button variant="primary" size="sm">Find Properties Now</Button>
           </Link>
         </div>
       ) : (

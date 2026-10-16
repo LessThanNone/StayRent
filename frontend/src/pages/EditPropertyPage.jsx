@@ -14,7 +14,7 @@ const EditPropertyPage = () => {
     description: '',
     price: '',
     pricePeriod: 'monthly',
-    propertyType: 'Kost',
+    propertyType: 'Boarding House',
     street: '',
     city: '',
     province: '',
@@ -47,7 +47,7 @@ const EditPropertyPage = () => {
         description: prop.description || '',
         price: prop.price || '',
         pricePeriod: prop.pricePeriod || 'monthly',
-        propertyType: prop.propertyType || 'Kost',
+        propertyType: prop.propertyType || 'Boarding House',
         street: prop.address?.street || '',
         city: prop.address?.city || '',
         province: prop.address?.province || '',
@@ -137,17 +137,17 @@ const EditPropertyPage = () => {
           className="text-xs font-semibold text-brand-700 hover:text-brand-900 inline-flex items-center"
         >
           <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-          <span>Kembali ke Dashboard</span>
+          <span>Back to Dashboard</span>
         </Link>
       </div>
 
       <div className="bg-white rounded-3xl border border-hairline p-6 md:p-10 shadow-sm">
         <h1 className="text-2xl font-bold text-ink mb-1 flex items-center space-x-2">
           <Save className="w-6 h-6 text-brand-700 inline" />
-          <span>Edit Data Properti</span>
+          <span>Edit Property Details</span>
         </h1>
         <p className="text-xs text-mutedtext mb-6">
-          Perbarui informasi properti, fasilitas, aturan sewa, atau status ketersediaan
+          Update the property information, amenities, house rules, or availability status
         </p>
 
         {formError && (
@@ -160,7 +160,7 @@ const EditPropertyPage = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Judul Iklan Properti
+              Property Listing Title
             </label>
             <input
               type="text"
@@ -174,24 +174,24 @@ const EditPropertyPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Tipe Hunian
+                Property Type
               </label>
               <select
                 value={formData.propertyType}
                 onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                 className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
               >
-                <option value="Kost">Kost</option>
-                <option value="Kontrakan">Kontrakan</option>
-                <option value="Apartment">Apartemen</option>
+                <option value="Boarding House">Boarding House (Kost)</option>
+                <option value="Rented House">Rented House (Kontrakan)</option>
+                <option value="Apartment">Apartment</option>
                 <option value="Villa">Villa</option>
-                <option value="House">Rumah</option>
+                <option value="House">House</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Harga Sewa (Rp)
+                Rental Price (Rp)
               </label>
               <input
                 type="number"
@@ -204,30 +204,30 @@ const EditPropertyPage = () => {
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Periode Sewa
+                Rental Period
               </label>
               <select
                 value={formData.pricePeriod}
                 onChange={(e) => setFormData({ ...formData, pricePeriod: e.target.value })}
                 className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
               >
-                <option value="monthly">Per Bulan</option>
-                <option value="yearly">Per Tahun</option>
-                <option value="daily">Per Hari</option>
+                <option value="monthly">Per Month</option>
+                <option value="yearly">Per Year</option>
+                <option value="daily">Per Day</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Status Ketersediaan
+                Availability Status
               </label>
               <select
                 value={formData.isAvailable ? 'true' : 'false'}
                 onChange={(e) => setFormData({ ...formData, isAvailable: e.target.value === 'true' })}
                 className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
               >
-                <option value="true">Tersedia (Siap Huni)</option>
-                <option value="false">Penuh / Dipesan</option>
+                <option value="true">Available (Ready to Move)</option>
+                <option value="false">Full / Booked</option>
               </select>
             </div>
           </div>
@@ -235,7 +235,7 @@ const EditPropertyPage = () => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kamar Tidur
+                Bedrooms
               </label>
               <input
                 type="number"
@@ -247,7 +247,7 @@ const EditPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kamar Mandi
+                Bathrooms
               </label>
               <input
                 type="number"
@@ -259,7 +259,7 @@ const EditPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Luas (m²)
+                Area (m²)
               </label>
               <input
                 type="number"
@@ -274,7 +274,7 @@ const EditPropertyPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Alamat Jalan
+                Street Address
               </label>
               <input
                 type="text"
@@ -286,7 +286,7 @@ const EditPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kota / Kabupaten
+                City / District
               </label>
               <input
                 type="text"
@@ -298,7 +298,7 @@ const EditPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Provinsi
+                Province
               </label>
               <input
                 type="text"
@@ -312,7 +312,7 @@ const EditPropertyPage = () => {
 
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Deskripsi Lengkap Hunian
+              Full Property Description
             </label>
             <textarea
               rows={4}
@@ -326,7 +326,7 @@ const EditPropertyPage = () => {
           {/* Amenities */}
           <div>
             <label className="block text-sm font-medium text-ink mb-2">
-              Pilih Fasilitas yang Tersedia (Amenities)
+              Select Available Amenities
             </label>
             <div className="flex flex-wrap gap-2">
               {AMENITIES_LIST.map((amenity) => (
@@ -350,7 +350,7 @@ const EditPropertyPage = () => {
           {/* Rules */}
           <div>
             <label className="block text-sm font-medium text-ink mb-2">
-              Pilih Peraturan Rumah (House Rules)
+              Select House Rules
             </label>
             <div className="flex flex-wrap gap-2">
               {RULES_LIST.map((rule) => (
@@ -375,7 +375,7 @@ const EditPropertyPage = () => {
           {existingImages.length > 0 && (
             <div>
               <label className="block text-sm font-medium text-ink mb-2">
-                Foto Saat Ini
+                Current Photos
               </label>
               <div className="flex flex-wrap gap-3">
                 {existingImages.map((img, index) => (
@@ -393,7 +393,7 @@ const EditPropertyPage = () => {
           {/* Add new images */}
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Unggah Foto Baru (Opsional, Menimpa/Menambahkan)
+              Upload New Photos (Optional — Replaces / Adds)
             </label>
             <input
               type="file"
@@ -410,7 +410,7 @@ const EditPropertyPage = () => {
             className="w-full py-3.5 text-sm"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Menyimpan Perubahan...' : 'Simpan Perubahan Properti'}
+            {isSubmitting ? 'Saving Changes...' : 'Save Property Changes'}
           </Button>
         </form>
       </div>

@@ -54,7 +54,7 @@ const Navbar = () => {
               <div className="hidden md:flex items-center space-x-6">
                 <Link to="/" className={navLink('/', true)}>
                   <Compass className="w-3.5 h-3.5 stroke-[1.5]" />
-                  <span>Jelajah</span>
+                  <span>Explore</span>
                 </Link>
 
                 {user?.role === 'tenant' && (
@@ -71,7 +71,7 @@ const Navbar = () => {
 
                 {user?.role === 'admin' && (
                   <Link to="/admin/dashboard" className={navLink('/admin/dashboard')}>
-                    <span>Dashboard Admin</span>
+                    <span>Dashboard</span>
                   </Link>
                 )}
               </div>
@@ -91,7 +91,7 @@ const Navbar = () => {
                     </div>
                     <button
                       onClick={handleLogout}
-                      title="Keluar"
+                      title="Log out"
                       className="p-2 text-mutedtext hover:text-rose-600 rounded-full hover:bg-rose-50 transition-all duration-200"
                     >
                       <LogOut className="w-3.5 h-3.5 stroke-[1.5]" />
@@ -100,13 +100,13 @@ const Navbar = () => {
                 ) : (
                   <div className="flex items-center space-x-2">
                     <Link to="/login" className="text-sm text-mutedtext hover:text-ink px-3 py-1.5 transition-colors duration-200">
-                      Masuk
+                      Sign In
                     </Link>
                     <Link
                       to="/register"
                       className="inline-flex items-center text-sm bg-brand-500 hover:brightness-110 text-white px-5 h-[38px] rounded-full shadow-btn hover:shadow-btn-hover hover:-translate-y-0.5 transition-all duration-300 ease-snap active:scale-[0.97]"
                     >
-                      Daftar
+                      Sign Up
                     </Link>
                   </div>
                 )}
@@ -116,7 +116,7 @@ const Navbar = () => {
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
-                aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
                 <span
                   className={`absolute block w-4 h-[1.5px] bg-ink rounded-full transition-all duration-300 ease-snap ${
@@ -144,7 +144,7 @@ const Navbar = () => {
         <div className="fixed inset-0 z-40 bg-white/95 backdrop-blur-xl flex flex-col px-6 pt-24 pb-10 animate-fadeIn md:hidden">
           <nav className="flex flex-col space-y-1 flex-1">
             {[
-              { to: '/', label: 'Jelajah Hunian' },
+              { to: '/', label: 'Explore' },
               ...(user?.role === 'tenant' ? [
                 { to: '/tenant/dashboard', label: 'Dashboard' },
               ] : []),
@@ -152,7 +152,7 @@ const Navbar = () => {
                 { to: '/owner/dashboard', label: 'Dashboard' },
               ] : []),
               ...(user?.role === 'admin' ? [
-                { to: '/admin/dashboard', label: 'Dashboard Admin' },
+                { to: '/admin/dashboard', label: 'Dashboard' },
               ] : []),
             ].map((item, i) => (
               <Link
@@ -180,16 +180,16 @@ const Navbar = () => {
                   </div>
                 </div>
                 <button onClick={handleLogout} className="text-sm text-rose-600 font-medium">
-                  Keluar
+                  Log out
                 </button>
               </div>
             ) : (
               <div className="flex flex-col space-y-3">
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-3 text-sm border border-hairline rounded-full text-ink hover:bg-gray-50 transition-colors">
-                  Masuk
+                  Sign In
                 </Link>
                 <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-3 text-sm bg-brand-500 text-white rounded-full shadow-btn hover:brightness-110 transition-all">
-                  Daftar Akun
+                  Create Account
                 </Link>
               </div>
             )}

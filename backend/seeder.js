@@ -32,7 +32,7 @@ const importData = async () => {
     });
 
     const ownerUser = await User.create({
-      name: 'Hendra Saputra (Tuan Rumah)',
+      name: 'Hendra Saputra (Owner)',
       email: 'owner@stayrent.com',
       password: 'owner123',
       role: 'owner',
@@ -40,7 +40,7 @@ const importData = async () => {
     });
 
     const tenantUser = await User.create({
-      name: 'Dimas Pratama (Penyewa)',
+      name: 'Dimas Pratama (Tenant)',
       email: 'tenant@stayrent.com',
       password: 'tenant123',
       role: 'tenant',
@@ -52,33 +52,33 @@ const importData = async () => {
     // 2. Create Sample Properties owned by Owner
     const propertiesData = [
       {
-        title: 'Kost Eksklusif Dago Asri Full AC Dekat ITB',
+        title: 'Exclusive Boarding House Dago Asri Full AC Near ITB',
         description:
-          'Kost eksklusif modern bernuansa asri dan tenang di kawasan Dago Bandung. Kamar sudah full-furnished dengan kasur springbed ukuran queen, meja belajar, lemari baju 2 pintu, dan kamar mandi dalam lengkap dengan water heater. Lokasi strategis hanya 5 menit ke kampus ITB dan Unpad Dipatiukur.',
+          'A modern and exclusive boarding house in a serene Dago Bandung neighborhood. The room is fully furnished with a queen-size spring bed, study desk, two-door wardrobe, and an en-suite bathroom with a water heater. Prime location just 5 minutes from ITB and Unpad Dipatiukur campus.',
         price: 2200000,
         pricePeriod: 'monthly',
-        propertyType: 'Kost',
+        propertyType: 'Boarding House',
         address: {
           street: 'Jl. Dago Asri No. 18',
           city: 'Bandung',
-          province: 'Jawa Barat',
+          province: 'West Java',
           postalCode: '40135',
         },
         bedrooms: 1,
         bathrooms: 1,
         area: 24,
         amenities: [
-          'Wi-Fi Cepat',
+          'Fast Wi-Fi',
           'Air Conditioning (AC)',
-          'Kamar Mandi Dalam',
+          'Private Bathroom',
           'Water Heater',
-          'Parkir Mobil & Motor',
-          'Keamanan 24 Jam',
+          'Car & Motorcycle Parking',
+          '24-Hour Security',
         ],
         rules: [
-          'Dilarang Merokok',
-          'Dilarang Bawa Hewan',
-          'Akses 24 Jam Bebas',
+          'No Smoking',
+          'No Pets Allowed',
+          '24-Hour Access',
         ],
         images: [
           'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
@@ -91,15 +91,15 @@ const importData = async () => {
         numReviews: 12,
       },
       {
-        title: 'Apartemen Modern Studio Menteng Park Tower',
+        title: 'Modern Studio Apartment Menteng Park Tower',
         description:
-          'Unit apartemen tipe studio di lantai 18 dengan pemandangan kota Jakarta yang menawan. Dilengkapi smart TV, kitchen set lengkap dengan kompor induksi, microwave, kulkas, serta akses gratis ke kolam renang infinity dan fitness center gedung.',
+          'A studio apartment on the 18th floor with a stunning Jakarta city view. Equipped with a Smart TV, full kitchen set with induction stove, microwave, refrigerator, and complimentary access to the building\'s infinity pool and fitness center.',
         price: 5500000,
         pricePeriod: 'monthly',
         propertyType: 'Apartment',
         address: {
           street: 'Jl. Cikini Raya No. 79',
-          city: 'Jakarta Pusat',
+          city: 'Central Jakarta',
           province: 'DKI Jakarta',
           postalCode: '10330',
         },
@@ -107,18 +107,18 @@ const importData = async () => {
         bathrooms: 1,
         area: 38,
         amenities: [
-          'Wi-Fi Cepat',
+          'Fast Wi-Fi',
           'Air Conditioning (AC)',
-          'Kamar Mandi Dalam',
+          'Private Bathroom',
           'Smart TV',
-          'Dapur Lengkap',
-          'Kolam Renang',
-          'Keamanan 24 Jam',
+          'Fully Equipped Kitchen',
+          'Swimming Pool',
+          '24-Hour Security',
         ],
         rules: [
-          'Dilarang Merokok',
-          'Dilarang Pesta / Bising',
-          'Batas Tamu Tertentu',
+          'No Smoking',
+          'No Parties / Noise',
+          'Limited Guests',
         ],
         images: [
           'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
@@ -131,12 +131,12 @@ const importData = async () => {
         numReviews: 8,
       },
       {
-        title: 'Kontrakan Rumah Minimalis 2 Lantai Siap Huni',
+        title: 'Minimalist 2-Storey Rented House Move-in Ready',
         description:
-          'Rumah sewa 2 lantai cocok untuk keluarga muda atau profesional. Lingkungan perumahan asri dengan sistem keamanan satu pintu (one gate system). Memiliki carport berkanopi, ruang keluarga luas, dapur bersih, dan taman belakang yang hijau.',
+          'A 2-storey rental house ideal for young families or professionals. Located in a peaceful residential area with a one-gate security system. Features a covered carport, spacious living room, clean kitchen, and a lush backyard garden.',
         price: 35000000,
         pricePeriod: 'yearly',
-        propertyType: 'Kontrakan',
+        propertyType: 'Rented House',
         address: {
           street: 'Komplek Griya Indah Blok C No. 5',
           city: 'Sleman',
@@ -147,14 +147,14 @@ const importData = async () => {
         bathrooms: 2,
         area: 110,
         amenities: [
-          'Parkir Gratis',
-          'Dapur Lengkap',
-          'Keamanan 24 Jam',
+          'Free Parking',
+          'Fully Equipped Kitchen',
+          '24-Hour Security',
           'Air Conditioning (AC)',
         ],
         rules: [
-          'Boleh Bawa Hewan',
-          'Akses 24 Jam Bebas',
+          'Pet Friendly',
+          '24-Hour Access',
         ],
         images: [
           'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80',
@@ -166,31 +166,31 @@ const importData = async () => {
         numReviews: 5,
       },
       {
-        title: 'Villa Private Pool Pemandangan Gunung Salak',
+        title: 'Private Pool Villa with Mount Salak View',
         description:
-          'Villa liburan eksklusif dengan kolam renang pribadi dan gazebo santai menghadap langsung ke panorama Gunung Salak. Sangat cocok untuk liburan keluarga besar atau kumpul akhir pekan.',
+          'An exclusive holiday villa with a private pool and a relaxing gazebo facing the panoramic view of Mount Salak. Perfect for a large family vacation or a weekend getaway with friends.',
         price: 1800000,
         pricePeriod: 'daily',
         propertyType: 'Villa',
         address: {
           street: 'Jl. Raya Puncak KM 77',
           city: 'Bogor',
-          province: 'Jawa Barat',
+          province: 'West Java',
           postalCode: '16750',
         },
         bedrooms: 4,
         bathrooms: 3,
         area: 250,
         amenities: [
-          'Kolam Renang',
-          'Wi-Fi Cepat',
+          'Swimming Pool',
+          'Fast Wi-Fi',
           'Smart TV',
-          'Dapur Lengkap',
-          'Parkir Gratis',
+          'Fully Equipped Kitchen',
+          'Free Parking',
         ],
         rules: [
-          'Batas Tamu Tertentu',
-          'Dilarang Merokok',
+          'Limited Guests',
+          'No Smoking',
         ],
         images: [
           'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80',
@@ -202,31 +202,31 @@ const importData = async () => {
         numReviews: 15,
       },
       {
-        title: 'Rumah Paviliun Modern Asri Dekat Pusat Kota',
+        title: 'Modern Pavilion House Close to City Center',
         description:
-          'Rumah tinggal paviliun modern dengan halaman depan yang asri, ruang tamu luas, dapur pribadi, dan akses jalan lebar 2 mobil. Dekat fasilitas umum, rumah sakit, dan pusat kuliner.',
+          'A modern pavilion residence with a lush front garden, spacious living room, private kitchen, and a wide driveway for two cars. Close to public facilities, hospitals, and dining areas.',
         price: 45000000,
         pricePeriod: 'yearly',
-        propertyType: 'Rumah',
+        propertyType: 'House',
         address: {
           street: 'Jl. Cemara Indah No. 24',
           city: 'Bandung',
-          province: 'Jawa Barat',
+          province: 'West Java',
           postalCode: '40161',
         },
         bedrooms: 3,
         bathrooms: 2,
         area: 120,
         amenities: [
-          'Wi-Fi Cepat',
+          'Fast Wi-Fi',
           'Air Conditioning (AC)',
-          'Parkir Mobil & Motor',
-          'Dapur Lengkap',
-          'Keamanan 24 Jam',
+          'Car & Motorcycle Parking',
+          'Fully Equipped Kitchen',
+          '24-Hour Security',
         ],
         rules: [
-          'Dilarang Merokok',
-          'Akses 24 Jam Bebas',
+          'No Smoking',
+          '24-Hour Access',
         ],
         images: [
           'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80',
@@ -251,7 +251,7 @@ const importData = async () => {
       endDate: new Date('2026-12-01'),
       totalPrice: createdProperties[0].price,
       status: 'pending',
-      notes: 'Rencana pindah awal bulan, membawa 1 motor.',
+      notes: 'Planning to move in at the start of the month, bringing 1 motorcycle.',
     });
 
     await Booking.create({
@@ -262,7 +262,7 @@ const importData = async () => {
       endDate: new Date('2026-11-01'),
       totalPrice: createdProperties[1].price,
       status: 'approved',
-      notes: 'Pembayaran DP telah dikonfirmasi.',
+      notes: 'Down payment has been confirmed.',
     });
 
     console.log('Sample bookings created...');
@@ -281,7 +281,7 @@ const importData = async () => {
       user: tenantUser._id,
       rating: 5,
       comment:
-        'Tempatnya bersih banget, air lancar dan hangat, pemiliknya ramah dan fast response via WA. Rekomendasi buat mahasiswa Dago!',
+        'The place is very clean, water runs smoothly and warm, the owner is friendly and responds fast via WhatsApp. Highly recommended for students near Dago!',
     });
 
     console.log('Data Seeding Successfully Completed! 🎉');

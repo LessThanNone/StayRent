@@ -50,7 +50,7 @@ const AdminDashboard = () => {
       await adminService.approveOwner(ownerId);
       fetchAdminData();
     } catch (error) {
-      alert(error.response?.data?.message || 'Gagal mengubah status verifikasi owner');
+      alert(error.response?.data?.message || 'Failed to update owner verification status.');
     }
   };
 
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
       await adminService.updateUserRole(userId, newRole);
       fetchAdminData();
     } catch (error) {
-      alert(error.response?.data?.message || 'Gagal mengubah role');
+      alert(error.response?.data?.message || 'Failed to change role.');
     }
   };
 
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       await adminService.togglePropertyStatus(propertyId);
       fetchAdminData();
     } catch (error) {
-      alert(error.response?.data?.message || 'Gagal mengubah status properti');
+      alert(error.response?.data?.message || 'Failed to change property status.');
     }
   };
 
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
           Admin Control Center
         </h1>
         <p className="text-sm text-mutedtext max-w-lg">
-          Pantau metrik performa, moderasi akses pengguna, dan tinjau seluruh listing properti.
+          Monitor performance metrics, moderate user access, and review all property listings.
         </p>
       </div>
 
@@ -104,7 +104,7 @@ const AdminDashboard = () => {
             activeTab === 'users' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Kelola Pengguna ({users.length})
+          Manage Users ({users.length})
         </button>
         <button
           onClick={() => setActiveTab('owners')}
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
             activeTab === 'owners' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Verifikasi Owner ({owners.length})
+          Verify Owners ({owners.length})
         </button>
         <button
           onClick={() => setActiveTab('properties')}
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
             activeTab === 'properties' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Moderasi Properti ({properties.length})
+          Moderate Properties ({properties.length})
         </button>
         <button
           onClick={() => setActiveTab('bookings')}
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
             activeTab === 'bookings' ? 'border-brand-700 text-brand-800' : 'border-transparent text-mutedtext'
           }`}
         >
-          Seluruh Booking ({bookings.length})
+          All Bookings ({bookings.length})
         </button>
       </div>
 
@@ -139,10 +139,10 @@ const AdminDashboard = () => {
             <table className="w-full text-left text-xs text-gray-600">
               <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
                 <tr>
-                  <th className="p-4">Nama Lengkap</th>
-                  <th className="p-4">Email Akun</th>
-                  <th className="p-4">Role Saat Ini</th>
-                  <th className="p-4">Ganti Peran</th>
+                  <th className="p-4">Full Name</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">Current Role</th>
+                  <th className="p-4">Change Role</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-hairline">
@@ -161,8 +161,8 @@ const AdminDashboard = () => {
                         onChange={(e) => handleRoleChange(u._id, e.target.value)}
                         className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-semibold focus:ring-1 focus:ring-brand-700 focus:outline-none"
                       >
-                        <option value="tenant">Tenant (Penyewa)</option>
-                        <option value="owner">Owner (Pemilik)</option>
+                        <option value="tenant">Tenant</option>
+                        <option value="owner">Owner</option>
                         <option value="admin">Admin</option>
                       </select>
                     </td>
@@ -181,18 +181,18 @@ const AdminDashboard = () => {
             <table className="w-full text-left text-xs text-gray-600">
               <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
                 <tr>
-                  <th className="p-4">Nama Pemilik</th>
+                  <th className="p-4">Owner Name</th>
                   <th className="p-4">Email</th>
-                  <th className="p-4">Nomor WhatsApp</th>
-                  <th className="p-4">Status Verifikasi</th>
-                  <th className="p-4">Aksi Verifikasi</th>
+                  <th className="p-4">WhatsApp Number</th>
+                  <th className="p-4">Verification Status</th>
+                  <th className="p-4">Verification Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-hairline">
                 {owners.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="p-8 text-center text-mutedtext">
-                      Belum ada akun Owner terdaftar.
+                      No Owner accounts registered yet.
                     </td>
                   </tr>
                 ) : (
@@ -209,7 +209,7 @@ const AdminDashboard = () => {
                               : 'bg-amber-50 text-amber-800 border border-amber-200'
                           }`}
                         >
-                          {o.isApproved ? 'Disetujui' : 'Menunggu Persetujuan'}
+                          {o.isApproved ? 'Approved' : 'Pending Approval'}
                         </span>
                       </td>
                       <td className="p-4">
@@ -219,7 +219,7 @@ const AdminDashboard = () => {
                           onClick={() => handleToggleOwnerApproval(o._id)}
                           className="text-xs"
                         >
-                          {o.isApproved ? 'Cabut Verifikasi' : 'Setujui Akun Owner'}
+                          {o.isApproved ? 'Revoke Approval' : 'Approve Owner Account'}
                         </Button>
                       </td>
                     </tr>
@@ -238,11 +238,11 @@ const AdminDashboard = () => {
             <table className="w-full text-left text-xs text-gray-600">
               <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
                 <tr>
-                  <th className="p-4">Judul Unit</th>
-                  <th className="p-4">Pemilik (Host)</th>
-                  <th className="p-4">Harga Sewa</th>
-                  <th className="p-4">Status Ketersediaan</th>
-                  <th className="p-4">Aksi Kontrol</th>
+                  <th className="p-4">Unit Title</th>
+                  <th className="p-4">Owner (Host)</th>
+                  <th className="p-4">Rental Price</th>
+                  <th className="p-4">Availability Status</th>
+                  <th className="p-4">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-hairline">
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
                             : 'bg-rose-50 text-rose-800 border border-rose-200'
                         }`}
                       >
-                        {p.isAvailable ? 'Siap Huni' : 'Dipesan / Nonaktif'}
+                        {p.isAvailable ? 'Available' : 'Booked / Inactive'}
                       </span>
                     </td>
                     <td className="p-4">
@@ -269,7 +269,7 @@ const AdminDashboard = () => {
                         onClick={() => handleTogglePropertyStatus(p._id)}
                         className="text-xs"
                       >
-                        Ubah Status Unit
+                        Toggle Unit Status
                       </Button>
                     </td>
                   </tr>
@@ -287,11 +287,11 @@ const AdminDashboard = () => {
             <table className="w-full text-left text-xs text-gray-600">
               <thead className="bg-surface-warm text-ink uppercase font-bold text-[11px] border-b border-hairline">
                 <tr>
-                  <th className="p-4">Unit Properti</th>
-                  <th className="p-4">Penyewa (Tenant)</th>
-                  <th className="p-4">Tuan Rumah (Owner)</th>
-                  <th className="p-4">Total Biaya</th>
-                  <th className="p-4">Status Reservasi</th>
+                  <th className="p-4">Property Unit</th>
+                  <th className="p-4">Tenant</th>
+                  <th className="p-4">Owner</th>
+                  <th className="p-4">Total Cost</th>
+                  <th className="p-4">Booking Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-hairline">

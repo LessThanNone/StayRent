@@ -13,7 +13,7 @@ const AddPropertyPage = () => {
     description: '',
     price: '',
     pricePeriod: 'monthly',
-    propertyType: 'Kost',
+    propertyType: 'Boarding House',
     street: '',
     city: '',
     province: '',
@@ -88,17 +88,17 @@ const AddPropertyPage = () => {
           className="text-xs font-semibold text-brand-700 hover:text-brand-900 inline-flex items-center"
         >
           <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-          <span>Kembali ke Dashboard</span>
+          <span>Back to Dashboard</span>
         </Link>
       </div>
 
       <div className="bg-white rounded-3xl border border-hairline p-6 md:p-10 shadow-sm">
         <h1 className="text-2xl font-bold text-ink mb-1 flex items-center space-x-2">
           <Plus className="w-6 h-6 text-brand-700 inline" />
-          <span>Tambah Iklan Properti Baru</span>
+          <span>Add New Property Listing</span>
         </h1>
         <p className="text-xs text-mutedtext mb-6">
-          Lengkapi formulir di bawah ini dengan informasi akurat untuk menarik minat calon penyewa
+          Fill in the form below with accurate information to attract prospective tenants
         </p>
 
         {formError && (
@@ -111,7 +111,7 @@ const AddPropertyPage = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Judul Iklan Properti
+              Property Listing Title
             </label>
             <input
               type="text"
@@ -126,24 +126,24 @@ const AddPropertyPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Tipe Hunian
+                Property Type
               </label>
               <select
                 value={formData.propertyType}
                 onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                 className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
               >
-                <option value="Kost">Kost</option>
-                <option value="Kontrakan">Kontrakan</option>
-                <option value="Apartment">Apartemen</option>
+                <option value="Boarding House">Boarding House (Kost)</option>
+                <option value="Rented House">Rented House (Kontrakan)</option>
+                <option value="Apartment">Apartment</option>
                 <option value="Villa">Villa</option>
-                <option value="House">Rumah</option>
+                <option value="House">House</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Harga Sewa (Rp)
+                Rental Price (Rp)
               </label>
               <input
                 type="number"
@@ -157,16 +157,16 @@ const AddPropertyPage = () => {
 
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Periode Sewa
+                Rental Period
               </label>
               <select
                 value={formData.pricePeriod}
                 onChange={(e) => setFormData({ ...formData, pricePeriod: e.target.value })}
                 className="w-full text-xs p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-1 focus:ring-brand-700 focus:outline-none"
               >
-                <option value="monthly">Per Bulan</option>
-                <option value="yearly">Per Tahun</option>
-                <option value="daily">Per Hari</option>
+                <option value="monthly">Per Month</option>
+                <option value="yearly">Per Year</option>
+                <option value="daily">Per Day</option>
               </select>
             </div>
           </div>
@@ -174,7 +174,7 @@ const AddPropertyPage = () => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kamar Tidur
+                Bedrooms
               </label>
               <input
                 type="number"
@@ -186,7 +186,7 @@ const AddPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kamar Mandi
+                Bathrooms
               </label>
               <input
                 type="number"
@@ -198,7 +198,7 @@ const AddPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Luas (m²)
+                Area (m²)
               </label>
               <input
                 type="number"
@@ -213,7 +213,7 @@ const AddPropertyPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Alamat Jalan
+                Street Address
               </label>
               <input
                 type="text"
@@ -226,7 +226,7 @@ const AddPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Kota / Kabupaten
+                City / District
               </label>
               <input
                 type="text"
@@ -239,7 +239,7 @@ const AddPropertyPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-ink mb-1">
-                Provinsi
+                Province
               </label>
               <input
                 type="text"
@@ -254,7 +254,7 @@ const AddPropertyPage = () => {
 
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Deskripsi Lengkap Hunian
+              Full Property Description
             </label>
             <textarea
               rows={4}
@@ -269,7 +269,7 @@ const AddPropertyPage = () => {
           {/* Amenities */}
           <div>
             <label className="block text-sm font-medium text-ink mb-2">
-              Pilih Fasilitas yang Tersedia (Amenities)
+              Select Available Amenities
             </label>
             <div className="flex flex-wrap gap-2">
               {AMENITIES_LIST.map((amenity) => (
@@ -293,7 +293,7 @@ const AddPropertyPage = () => {
           {/* Rules */}
           <div>
             <label className="block text-sm font-medium text-ink mb-2">
-              Pilih Peraturan Rumah (House Rules)
+              Select House Rules
             </label>
             <div className="flex flex-wrap gap-2">
               {RULES_LIST.map((rule) => (
@@ -317,7 +317,7 @@ const AddPropertyPage = () => {
           {/* Image upload */}
           <div>
             <label className="block text-sm font-medium text-ink mb-1">
-              Unggah Foto Properti (Maksimal 5 Foto)
+              Upload Property Photos (Max 5)
             </label>
             <input
               type="file"
@@ -327,7 +327,7 @@ const AddPropertyPage = () => {
               className="w-full text-xs p-2.5 bg-gray-50 border border-gray-200 rounded-xl file:mr-4 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-800 hover:file:bg-brand-100 cursor-pointer"
             />
             <p className="text-[11px] text-mutedtext mt-1">
-              Format: JPG, PNG, WEBP (Maks 5 MB per foto).
+              Supported formats: JPG, PNG, WEBP (Max 5 MB per photo).
             </p>
           </div>
 
@@ -337,7 +337,7 @@ const AddPropertyPage = () => {
             className="w-full py-3.5 text-sm"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Mengunggah Data Listing...' : 'Publikasikan Iklan Properti Sekarang'}
+            {isSubmitting ? 'Publishing Listing...' : 'Publish Property Listing Now'}
           </Button>
         </form>
       </div>

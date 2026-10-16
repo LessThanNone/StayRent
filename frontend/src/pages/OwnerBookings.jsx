@@ -56,20 +56,20 @@ const OwnerBookings = () => {
               className="text-xs font-semibold text-brand-700 hover:text-brand-900 inline-flex items-center"
             >
               <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-              <span>Kembali ke Dashboard</span>
+              <span>Back to Dashboard</span>
             </Link>
           </div>
           <h1 className="text-2xl font-extrabold text-ink tracking-tight mt-2">
-            Kelola Pesanan Masuk
+            Manage Incoming Bookings
           </h1>
           <p className="text-xs text-mutedtext mt-0.5">
-            Tinjau reservasi dari calon penyewa, verifikasi jadwal tinggal, dan berikan persetujuan
+            Review reservations from prospective tenants, verify stay dates, and give your approval
           </p>
         </div>
 
         {pendingCount > 0 && (
           <span className="px-3 py-1.5 rounded-full text-xs bg-amber-500 text-white font-bold shadow-sm">
-            {pendingCount} Permohonan Menunggu Konfirmasi
+            {pendingCount} Requests Pending Confirmation
           </span>
         )}
       </div>
@@ -90,12 +90,12 @@ const OwnerBookings = () => {
       ) : incomingBookings.length === 0 ? (
         <div className="bg-surface-warm rounded-3xl border border-hairline p-12 text-center max-w-md mx-auto">
           <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-ink">Belum Ada Pengajuan Masuk</h3>
+          <h3 className="text-base font-bold text-ink">No Incoming Requests</h3>
           <p className="text-xs text-mutedtext mt-1 mb-6">
-            Permohonan sewa dari calon penyewa akan muncul di sini untuk Anda setujui atau tolak.
+            Rental requests from prospective tenants will appear here for you to approve or reject.
           </p>
           <Link to="/owner/dashboard">
-            <Button variant="primary" size="sm">Kembali ke Dashboard</Button>
+            <Button variant="primary" size="sm">Back to Dashboard</Button>
           </Link>
         </div>
       ) : (
@@ -111,7 +111,7 @@ const OwnerBookings = () => {
                     ID: #{b._id.slice(-6)}
                   </span>
                   <span className="text-xs text-mutedtext font-medium">
-                    Diajukan {formatDate(b.createdAt)}
+                    Submitted {formatDate(b.createdAt)}
                   </span>
                 </div>
 
@@ -136,7 +136,7 @@ const OwnerBookings = () => {
 
                 {b.notes && (
                   <p className="text-xs text-mutedtext italic mt-2 bg-gray-50 p-2 rounded-lg inline-block">
-                    Catatan penyewa: "{b.notes}"
+                    Tenant note: "{b.notes}"
                   </p>
                 )}
               </div>
@@ -151,7 +151,7 @@ const OwnerBookings = () => {
                       : 'bg-amber-50 text-amber-800 border border-amber-200'
                   }`}
                 >
-                  {b.status === 'approved' ? 'Disetujui (Booked)' : b.status}
+                  {b.status === 'approved' ? 'Approved (Booked)' : b.status}
                 </span>
 
                 {b.status === 'pending' && (
@@ -161,14 +161,14 @@ const OwnerBookings = () => {
                       className="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors"
                     >
                       <Check className="w-3.5 h-3.5" />
-                      <span>Setujui</span>
+                      <span>Approve</span>
                     </button>
                     <button
                       onClick={() => handleBookingAction(b._id, 'rejected')}
                       className="inline-flex items-center space-x-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors"
                     >
                       <X className="w-3.5 h-3.5" />
-                      <span>Tolak</span>
+                      <span>Reject</span>
                     </button>
                   </div>
                 )}

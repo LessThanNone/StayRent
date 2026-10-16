@@ -25,7 +25,7 @@ const Login = () => {
       else if (user.role === 'owner') navigate('/owner/dashboard');
       else navigate('/tenant/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login gagal. Periksa email dan password Anda.');
+      setError(err.response?.data?.message || 'Login failed. Please check your email and password.');
     } finally {
       setIsSubmitting(false);
     }
@@ -59,10 +59,10 @@ const Login = () => {
               </span>
             </Link>
             <h2 className="text-xl font-semibold tracking-snug text-ink mt-4 mb-1">
-              Selamat datang kembali
+              Welcome back
             </h2>
             <p className="text-sm text-mutedtext">
-              Masuk untuk melanjutkan sewa atau kelola properti
+              Sign in to continue renting or manage your property
             </p>
           </div>
 
@@ -91,7 +91,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-ink mb-1.5">Kata Sandi</label>
+              <label className="block text-sm font-medium text-ink mb-1.5">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-mutedtext stroke-[1.5]" />
                 <input
@@ -112,14 +112,14 @@ const Login = () => {
               className="w-full h-[46px] text-sm mt-1"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Memeriksa...' : 'Masuk'}
+              {isSubmitting ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
 
           <div className="mt-7 pt-6 border-t border-hairline text-center text-sm text-mutedtext">
-            Belum punya akun?{' '}
+            Don't have an account?{' '}
             <Link to="/register" className="font-semibold text-brand-500 hover:text-brand-700 transition-colors">
-              Daftar sekarang
+              Sign up now
             </Link>
           </div>
         </div>
